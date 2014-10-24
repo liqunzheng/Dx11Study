@@ -36,6 +36,9 @@ class SystemClass
 		GraphicsClass* m_Graphics;
 		//计时器
 		TimerClass *m_Timer;
+
+		//按下鼠标左键时,记录鼠标当前的位
+		POINT m_OldMousePos;
 	};
 
 //定义静态的回调函数以及应用程序句柄

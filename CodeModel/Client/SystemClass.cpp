@@ -286,19 +286,46 @@ LRESULT CALLBACK SystemClass::MessageHandler(HWND hwnd, UINT umsg, WPARAM wparam
 {
 	switch (umsg)
 	{
-		// 检测按键消息.
+		//鼠标消息
+	case WM_LBUTTONDOWN:
+		if (wparam & MK_LBUTTON)
+		{
+			SetCapture(hwnd);
+			m_OldMousePos.x = LOWORD(lparam);
+			m_OldMousePos.y = HIWORD(lparam);
+		}
+		return 0;
+	case WM_LBUTTONUP:
+		ReleaseCapture();
+		return 0;
+	case WM_MOUSEMOVE:
+		if (wparam & MK_LBUTTON)
+		{
+			POINT mousePos;
+			mousePos.x = (int)LOWORD(lparam);
+			mousePos.y = (int)HIWORD(lparam);
+
+			int dx = mousePos.x - m_OldMousePos.x;
+			int dy = mousePos.y - m_OldMousePos.y;
+			
+			//通过鼠标转动摄像机
+			m_Graphics->m_Camera->pitch(dy * 0.0087266f);
+			m_Graphics->m_Camera->yaw(dx * 0.0087266f);
+
+			m_OldMousePos = mousePos;
+		}
+		return 0;
+
+	// 检测按键消息.
 	case WM_KEYDOWN:
-	{
-					   m_Input->KeyDown((unsigned int)wparam);
-					   return 0;
-	}
+		m_Input->KeyDown((unsigned int)wparam);
+		return 0;
 
 	case WM_KEYUP:
-	{
-					 m_Input->KeyUp((unsigned int)wparam);
-					 return 0;
-	}
-		//任何其它消息发送到windows缺省处理.
+		m_Input->KeyUp((unsigned int)wparam);
+		return 0;
+
+	//任何其它消息发送到windows缺省处理.
 	case WM_SIZE:
 	{
 					int screenWidth = 0, screenHeight = 0;
@@ -317,9 +344,7 @@ LRESULT CALLBACK SystemClass::MessageHandler(HWND hwnd, UINT umsg, WPARAM wparam
 					return 0;
 	}
 	default:
-	{
-			   return DefWindowProc(hwnd, umsg, wparam, lparam);
-	}
+		return DefWindowProc(hwnd, umsg, wparam, lparam);
 	}
 }
 
