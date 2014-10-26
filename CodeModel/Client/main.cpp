@@ -1,4 +1,5 @@
 #include "SystemClass.h"
+#include "TraceWin.h"
 
 //应用程序入口main函数
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR pScmdline, int iCmdshow)
@@ -6,6 +7,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR pScmdline,
 	SystemClass* System;
 	bool result;
 
+	DPrintf("我有一个梦想!");
 
 	// 创建一个system对象.
 	System = new SystemClass;

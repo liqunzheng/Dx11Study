@@ -3,10 +3,11 @@
 
 LightClass::LightClass(void)
 {
-	m_position = D3DXVECTOR3(1.0, 8.0, 1.0);
-	m_globalAmbient = D3DXVECTOR3(1.0, 1.0, 1.0);
+	m_position = D3DXVECTOR4(1.0, 8.0, 1.0, 1.0);
+	m_globalAmbient = D3DXVECTOR4(1.0, 1.0, 1.0, 1.0);
 	m_direction = D3DXVECTOR3(-1.0, -1.0, 1.0);
-	m_lightColor = D3DXVECTOR3(1.0, 1.0, 1.0);
+
+	m_lightColor = D3DXVECTOR4(1.0, 1.0, 1.0, 1.0);
 	m_shininess = 5.0f;
 }
 
@@ -19,15 +20,15 @@ LightClass::~LightClass(void)
 {
 }
 
-void  LightClass::SetLightPosition(float x, float y, float z)
+void  LightClass::SetLightPosition(float x, float y, float z, float w)
 {
-	m_position = D3DXVECTOR3(x, y, z);
+	m_position = D3DXVECTOR4(x, y, z, w);
 }
 
 //设置全局环境光系数
-void LightClass::SetGlobalAmbient(float red, float green, float blue)
+void LightClass::SetGlobalAmbient(float red, float green, float blue, float alpha)
 {
-	m_globalAmbient = D3DXVECTOR3(red, green, blue);
+	m_globalAmbient = D3DXVECTOR4(red, green, blue, alpha);
 	return;
 }
 
@@ -39,9 +40,9 @@ void LightClass::SetDirection(float x, float y, float z)
 }
 
 //设置光源颜色
-void LightClass::SetLightColor(float red, float green, float blue)
+void LightClass::SetLightColor(float red, float green, float blue, float alpha)
 {
-	m_lightColor = D3DXVECTOR3(red, green, blue);
+	m_lightColor = D3DXVECTOR4(red, green, blue, alpha);
 	return;
 }
 
@@ -53,13 +54,13 @@ void LightClass::SetShininess(float shininess)
 }
 
 //得到光源位置
-D3DXVECTOR3 LightClass::GetPosition()
+D3DXVECTOR4 LightClass::GetPosition()
 {
 	return m_position;
 }
 
 //得到全局环境光系数
-D3DXVECTOR3 LightClass::GetGlobalAmbient()
+D3DXVECTOR4 LightClass::GetGlobalAmbient()
 {
 	return m_globalAmbient;
 }
@@ -71,7 +72,7 @@ D3DXVECTOR3 LightClass::GetDirection()
 }
 
 //得到光源颜色
-D3DXVECTOR3 LightClass::GetLightColor()
+D3DXVECTOR4 LightClass::GetLightColor()
 {
 	return m_lightColor;
 }
@@ -81,4 +82,3 @@ float LightClass::GetShininess()
 {
 	return m_shininess;
 }
-

@@ -13,9 +13,6 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="着色器">
-      <UniqueIdentifier>{85109d79-193f-4194-a83d-596238630d53}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -104,13 +101,8 @@
     <ClInclude Include="PlaneModelClass.h">
       <Filter>头文件</Filter>
     </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <FxCompile Include="Shader\light_ps.hlsl">
-      <Filter>着色器</Filter>
-    </FxCompile>
-    <FxCompile Include="Shader\light_vs.hlsl">
-      <Filter>着色器</Filter>
-    </FxCompile>
+    <ClInclude Include="TraceWin.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

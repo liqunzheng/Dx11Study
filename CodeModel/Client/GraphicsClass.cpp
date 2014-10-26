@@ -13,10 +13,12 @@ GraphicsClass::GraphicsClass(void)
 	m_CubeModel = 0;
 	m_Light = 0;
 	m_LightShader = 0;
+
 }
 
 GraphicsClass::GraphicsClass(const GraphicsClass&)
 {
+
 }
 GraphicsClass::~GraphicsClass(void)
 {
@@ -52,7 +54,7 @@ bool GraphicsClass::Initialize(int screenWidth, int screenHeight, HWND hwnd)
 	}
 
 	// 设置摄像机位置.
-	D3DXVECTOR3 campos = D3DXVECTOR3(0.0f, 0.0f, -10.0f);
+	D3DXVECTOR3 campos = D3DXVECTOR3(8.0f, 3.0f, -20.0f);
 	m_Camera->setPosition(&campos);
 
 	// 创建模型对象.
@@ -70,13 +72,13 @@ bool GraphicsClass::Initialize(int screenWidth, int screenHeight, HWND hwnd)
 		return false;
 	}
 
-	//创建坐标轴模型对象
+	// 创轴建模型对象.
 	m_AxisModel = new AxisModelClass;
 	if (!m_AxisModel)
 	{
 		return false;
 	}
-	// 初始化坐标轴模型对象
+	// 初始化坐标轴模型对象.
 	result = m_AxisModel->Initialize(m_D3D->GetDevice());
 	if (!result)
 	{
@@ -84,12 +86,13 @@ bool GraphicsClass::Initialize(int screenWidth, int screenHeight, HWND hwnd)
 		return false;
 	}
 
-	// 初始化平面模型对象.
+	// 创平面模型对象.
 	m_PlaneModel = new PlaneModelClass;
 	if (!m_PlaneModel)
 	{
 		return false;
 	}
+	// 初始化平面模型对象.
 	result = m_PlaneModel->Initialize(m_D3D->GetDevice());
 	if (!result)
 	{
@@ -117,6 +120,7 @@ bool GraphicsClass::Initialize(int screenWidth, int screenHeight, HWND hwnd)
 	{
 		return false;
 	}
+
 	// 初始化shader对象
 	result = m_ColorShader->Initialize(m_D3D->GetDevice(), hwnd);
 	if (!result)
@@ -124,6 +128,7 @@ bool GraphicsClass::Initialize(int screenWidth, int screenHeight, HWND hwnd)
 		MessageBox(hwnd, L"Could not initialize the color shader object.", L"Error", MB_OK);
 		return false;
 	}
+
 	// 创建光照shader类
 	m_LightShader = new LightShaderClass;
 	if (!m_LightShader)
@@ -145,9 +150,6 @@ bool GraphicsClass::Initialize(int screenWidth, int screenHeight, HWND hwnd)
 	{
 		return false;
 	}
-
-	//设置光源位置，其它的参数使用默认值
-	m_Light->SetLightPosition(5.0f, 3.0f, -1.0f);
 
 	return true;
 }
@@ -232,6 +234,7 @@ bool GraphicsClass::Frame()
 {
 	bool result;
 
+
 	// 调用Render函数，渲染3D场景
 	// Render是GraphicsClass的私有函数.
 	result = Render();
@@ -246,25 +249,26 @@ bool GraphicsClass::Frame()
 
 bool GraphicsClass::Render()
 {
+
 	D3DXMATRIX viewMatrix, projectionMatrix, worldMatrix;
 	bool result;
 
+
 	// 设置framebuffer.为浅蓝色
-	m_D3D->BeginScene(0.0f, 0.0f, 0.5f, 1.0f);
+	m_D3D->BeginScene(0.0f, 0.0f, 0.5f, 0.5f);
 
 	// 得到3个矩阵.
 	m_Camera->getViewMatrix(&viewMatrix);
 	m_D3D->GetWorldMatrix(worldMatrix);
 	m_D3D->GetProjectionMatrix(projectionMatrix);
 
-	//渲染坐标轴
 	m_AxisModel->Render(m_D3D->GetDeviceContext());
+	// 用shader渲染.
 	result = m_ColorShader->Render(m_D3D->GetDeviceContext(), m_AxisModel->GetIndexCount(), worldMatrix, viewMatrix, projectionMatrix);
 	if (!result)
 	{
 		return false;
 	}
-
 	// 把模型顶点和索引缓冲放入管线，准备渲染.
 	m_Model->Render(m_D3D->GetDeviceContext());
 
@@ -274,33 +278,44 @@ bool GraphicsClass::Render()
 	{
 		return false;
 	}
+
+
 	//得到摄像机位置和一些材质光照系数
 	D3DXVECTOR3 camerapos;
-	D3DXVECTOR3 Ke = D3DXVECTOR3(1.0, 0.0, 0.0);
-	D3DXVECTOR3 Ka = D3DXVECTOR3(1.0, 1.0, 1.0);
-	D3DXVECTOR3 Kd = D3DXVECTOR3(1.0, 1.0, 1.0);
-	D3DXVECTOR3 Ks = D3DXVECTOR3(1.0, 1.0, 1.0);
+	D3DXVECTOR4 realcamerpos;
+	D3DXVECTOR4 Ke = D3DXVECTOR4(0.8, 0.0, 0.2, 1.0);
+	D3DXVECTOR4 Ka = D3DXVECTOR4(0.2, 0.2, 0.2, 1.0);
+	D3DXVECTOR4 Kd = D3DXVECTOR4(0.7, 0.5, 0.6, 1.0);
+	D3DXVECTOR4 Ks = D3DXVECTOR4(1.0, 1.0, 1.0, 1.0);
 	m_Camera->getPosition(&camerapos);
-
+	realcamerpos = D3DXVECTOR4(camerapos.x, camerapos.y, camerapos.z, 1.0);
 	//把cube顶点和索引数据放入缓冲区，准备渲染
 	m_CubeModel->Render(m_D3D->GetDeviceContext());
 	//用light shader渲染
 	result = m_LightShader->Render(m_D3D->GetDeviceContext(), m_Model->GetIndexCount(), worldMatrix, viewMatrix, projectionMatrix,
-		camerapos);
+		m_Light->GetPosition(), m_Light->GetLightColor(), m_Light->GetGlobalAmbient(),
+		realcamerpos, Ke, Ka, Kd, Ks, m_Light->GetDirection(), m_Light->GetShininess());
 	if (!result)
 	{
 		return false;
 	}
+
+	Ke = D3DXVECTOR4(0.2, 0.8, 0.0, 1.0);
+	Ka = D3DXVECTOR4(0.3, 0.3, 0.3, 1.0);
+	Kd = D3DXVECTOR4(1.0, 1.0, 1.0, 1.0);
+	Ks = D3DXVECTOR4(1.0, 1.0, 1.0, 1.0);
 
 	//把cube顶点和索引数据放入缓冲区，准备渲染
 	m_PlaneModel->Render(m_D3D->GetDeviceContext());
 	//用light shader渲染
 	result = m_LightShader->Render(m_D3D->GetDeviceContext(), m_Model->GetIndexCount(), worldMatrix, viewMatrix, projectionMatrix,
-		camerapos);
+		m_Light->GetPosition(), m_Light->GetLightColor(), m_Light->GetGlobalAmbient(),
+		realcamerpos, Ke, Ka, Kd, Ks, m_Light->GetDirection(), m_Light->GetShininess());
 	if (!result)
 	{
 		return false;
 	}
+
 
 	//把framebuffer中的图像present到屏幕上.
 	m_D3D->EndScene();

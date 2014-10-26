@@ -34,10 +34,14 @@ void LightShaderClass::Shutdown()
 }
 
 bool LightShaderClass::Render(ID3D11DeviceContext* deviceContext, int indexCount, D3DXMATRIX worldMatrix, D3DXMATRIX viewMatrix,
-	D3DXMATRIX projectionMatrix, D3DXVECTOR3 cameraPosition)
+	D3DXMATRIX projectionMatrix, D3DXVECTOR4 lightPosition, D3DXVECTOR4 lightColor, D3DXVECTOR4 globalAmbient,
+	D3DXVECTOR4 cameraPosition, D3DXVECTOR4 Ke, D3DXVECTOR4 Ka, D3DXVECTOR4 Kd, D3DXVECTOR4 Ks,
+	D3DXVECTOR3 lightDirection, float shininess)
 {
 	bool result;
-	result = SetShaderParameters(deviceContext, worldMatrix, viewMatrix, projectionMatrix, cameraPosition);
+	// 设置shader参数.
+	result = SetShaderParameters(deviceContext, worldMatrix, viewMatrix, projectionMatrix, lightPosition, lightColor, globalAmbient,
+		cameraPosition, Ke, Ka, Kd, Ks, lightDirection, shininess);
 	if (!result)
 	{
 		HR(result);
@@ -260,46 +264,77 @@ void LightShaderClass::OutputShaderErrorMessage(ID3D10Blob* errorMessage, HWND h
 }
 
 bool LightShaderClass::SetShaderParameters(ID3D11DeviceContext* deviceContext, D3DXMATRIX worldMatrix, D3DXMATRIX viewMatrix,
-	D3DXMATRIX projectionMatrix, D3DXVECTOR3 cameraPosition)
+	D3DXMATRIX projectionMatrix, D3DXVECTOR4 lightPosition, D3DXVECTOR4 lightColor, D3DXVECTOR4 globalAmbient,
+	D3DXVECTOR4 cameraPosition, D3DXVECTOR4 Ke, D3DXVECTOR4 Ka, D3DXVECTOR4 Kd, D3DXVECTOR4 Ks,
+	D3DXVECTOR3 lightDirection, float shininess)
 {
 	HRESULT result;
 	D3D11_MAPPED_SUBRESOURCE mappedResource;
 	unsigned int bufferNumber;
-	MatrixBufferType *dataPtr;
-	LightMaterialBufferType *dataPtr2;
+	MatrixBufferType* dataPtr;
+	LightMaterialBufferType* dataPtr2;
 
+	// 传入shader前，确保矩阵转置，这是D3D11的要求.
 	D3DXMatrixTranspose(&worldMatrix, &worldMatrix);
 	D3DXMatrixTranspose(&viewMatrix, &viewMatrix);
 	D3DXMatrixTranspose(&projectionMatrix, &projectionMatrix);
 
+	//  锁定常量缓冲，以便能够写入.
 	result = deviceContext->Map(m_matrixBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource);
 	if (FAILED(result))
 	{
 		return false;
 	}
-	dataPtr = (MatrixBufferType *)mappedResource.pData;
 
+	// 得到const buffer指针.
+	dataPtr = (MatrixBufferType*)mappedResource.pData;
+
+	// 设置world,view以及projection矩阵.
 	dataPtr->world = worldMatrix;
 	dataPtr->view = viewMatrix;
 	dataPtr->projection = projectionMatrix;
 
+	// 解锁常量缓冲.
 	deviceContext->Unmap(m_matrixBuffer, 0);
+
+	// 设置常量缓冲位置.
 	bufferNumber = 0;
+
+	// 用更新后的值设置常量缓冲.
 	deviceContext->VSSetConstantBuffers(bufferNumber, 1, &m_matrixBuffer);
 
+
+	// 锁定光照材质缓冲.
 	result = deviceContext->Map(m_lightmaterialBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource);
 	if (FAILED(result))
 	{
 		return false;
 	}
 
-	dataPtr2 = (LightMaterialBufferType *)mappedResource.pData;
+	//得到常量缓冲数据指针
+	dataPtr2 = (LightMaterialBufferType*)mappedResource.pData;
+
+	// 常量缓冲赋值.
+	dataPtr2->lightPosition = lightPosition;
+	dataPtr2->lightColor = lightColor;
 	dataPtr2->cameraPosition = cameraPosition;
+	dataPtr2->globalAmbient = globalAmbient;
+	dataPtr2->Ke = Ke;
+	dataPtr2->Ka = Ke;
+	dataPtr2->Kd = Kd;
+	dataPtr2->Ks = Ks;
+	dataPtr2->lightDirection = lightDirection;
+	dataPtr2->shininess = shininess;
+
+	// 解锁常量缓冲
 	deviceContext->Unmap(m_lightmaterialBuffer, 0);
 
+	// 设置缓冲索引为1，因为这是vs中的第二个常量缓冲，第一个为矩阵.
 	bufferNumber = 1;
+
+	// 设置光照材质常量缓冲.
 	deviceContext->VSSetConstantBuffers(bufferNumber, 1, &m_lightmaterialBuffer);
-	
+
 	return true;
 }
 
@@ -314,5 +349,7 @@ void LightShaderClass::RenderShader(ID3D11DeviceContext* deviceContext, int inde
 
 	// 渲染三角形
 	deviceContext->DrawIndexed(indexCount, 0, 0);
+
+	return;
 }
 
