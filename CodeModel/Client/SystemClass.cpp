@@ -155,6 +155,8 @@ bool SystemClass::Frame()
 		m_Graphics->m_Camera->yaw(PI / 180);
 	if (GetAsyncKeyState('C') & 0x8000)
 		m_Graphics->m_Camera->roll(PI / 180);
+	if (GetAsyncKeyState('R') & 0x8000)
+		m_Graphics->m_Camera->reCorver();
 
 	m_Timer->Frame();
 
@@ -293,6 +295,8 @@ LRESULT CALLBACK SystemClass::MessageHandler(HWND hwnd, UINT umsg, WPARAM wparam
 			SetCapture(hwnd);
 			m_OldMousePos.x = LOWORD(lparam);
 			m_OldMousePos.y = HIWORD(lparam);
+
+			m_Graphics->pick(m_OldMousePos.x, m_OldMousePos.y);
 		}
 		return 0;
 	case WM_LBUTTONUP:
@@ -331,6 +335,14 @@ LRESULT CALLBACK SystemClass::MessageHandler(HWND hwnd, UINT umsg, WPARAM wparam
 					int screenWidth = 0, screenHeight = 0;
 					screenWidth = LOWORD(lparam);
 					screenHeight = HIWORD(lparam);
+					if (screenHeight == 0)
+					{
+						screenHeight = 1;
+					}
+					if (screenWidth == 0)
+					{
+						screenWidth = 1;
+					}
 					// 窗口大小改变时，重新初始化图形对象
 					if (m_Graphics)
 					{
@@ -340,7 +352,6 @@ LRESULT CALLBACK SystemClass::MessageHandler(HWND hwnd, UINT umsg, WPARAM wparam
 							return false;
 						}
 					}
-
 					return 0;
 	}
 	default:
@@ -352,25 +363,18 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT umessage, WPARAM wparam, LPARAM lparam)
 {
 	switch (umessage)
 	{
-
 		// 窗口销毁消息.
 	case WM_DESTROY:
-	{
-					   PostQuitMessage(0);
-					   return 0;
-	}
+		PostQuitMessage(0);
+		return 0;
 
 		// 窗口关闭消息.
 	case WM_CLOSE:
-	{
-					 PostQuitMessage(0);
-					 return 0;
-	}
+		PostQuitMessage(0);
+		return 0;
 
 		//MessageHandle过程处理其它所有消息.
 	default:
-	{
-			   return ApplicationHandle->MessageHandler(hwnd, umessage, wparam, lparam);
-	}
+		return ApplicationHandle->MessageHandler(hwnd, umessage, wparam, lparam);
 	}
 }

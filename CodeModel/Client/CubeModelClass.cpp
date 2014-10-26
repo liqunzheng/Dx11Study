@@ -178,6 +178,9 @@ bool CubeModelClass::InitializeBuffers(ID3D11Device* device)
 		return false;
 	}
 
+	D3DXComputeBoundingSphere((D3DXVECTOR3*)vertices, sizeof(vertices), sizeof(VertexType), &m_boundingSphere.m_center, &m_boundingSphere.m_radius);
+
+
 	// ÊÍ·ÅÁÙÊ±»º³å.
 	delete[] vertices;
 	vertices = 0;
@@ -226,4 +229,26 @@ void CubeModelClass::RenderBuffers(ID3D11DeviceContext* deviceContext)
 	deviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
 	return;
+}
+
+bool CubeModelClass::InsectRay(sRay* ray)
+{
+	D3DXVECTOR3 v = ray->origin - m_boundingSphere.m_center;
+
+	float b = 2.0f * D3DXVec3Dot(&ray->direction, &v);
+	float c = D3DXVec3Dot(&v, &v) - (m_boundingSphere.m_radius * m_boundingSphere.m_radius);
+
+	float discriminant = (b * b) - (4.0f * c);
+
+	if (discriminant < 0.0f)
+		return false;
+
+	discriminant = sqrt(discriminant);
+
+	float s0 = (-b + discriminant) / 2.0f;
+	float s1 = (-b - discriminant) / 2.0f;
+
+	// if one solution is >= 0, then we intersected the sphere.
+	bool bInscetion = (s0 >= 0.0f || s1 >= 0.0f);
+	return bInscetion;
 }

@@ -1,5 +1,20 @@
 #include "GraphicsClass.h"
 
+namespace
+{
+	void transform_ray(sRay* ray, D3DXMATRIX* trans_matrix)
+	{
+		// transform the ray's origin, w = 1.
+		D3DXVec3TransformCoord(&ray->origin, &ray->origin, trans_matrix);
+
+		// transform the ray's direction, w = 0.
+		D3DXVec3TransformNormal(&ray->direction, &ray->direction, trans_matrix);
+
+		// normalize the direction
+		D3DXVec3Normalize(&ray->direction, &ray->direction);
+	}
+}
+
 
 GraphicsClass::GraphicsClass(void)
 {
@@ -321,4 +336,22 @@ bool GraphicsClass::Render()
 	m_D3D->EndScene();
 
 	return true;
+}
+
+void GraphicsClass::pick(int x, int y)
+{
+	sRay ray = m_D3D->calculate_picking_ray(x, y);
+	D3DXMATRIX view_matrix, view_inverse_matrix;
+	m_Camera->getViewMatrix(&view_matrix);
+
+	D3DXMatrixInverse(&view_inverse_matrix, NULL, &view_matrix);
+
+	transform_ray(&ray, &view_inverse_matrix);
+
+	bool b = m_CubeModel->InsectRay(&ray);
+
+	if (b)
+	{
+		DPrintf("Insection ...");
+	}
 }

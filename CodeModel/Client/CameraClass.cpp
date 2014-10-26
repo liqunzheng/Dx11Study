@@ -145,3 +145,13 @@ void CameraClass::setCameraType(CameraType cameraType)
 	_cameraType = cameraType;
 	}
 
+void CameraClass::reCorver()
+{
+	_cameraType = AIRCRAFT;
+
+	_pos = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+	_right = D3DXVECTOR3(1.0f, 0.0f, 0.0f);
+	_up = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
+	_look = D3DXVECTOR3(0.0f, 0.0f, 1.0f);
+}
+

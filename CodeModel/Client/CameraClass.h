@@ -30,6 +30,8 @@ class CameraClass
 		void getRight(D3DXVECTOR3* right);
 		void getUp(D3DXVECTOR3* up);
 		void getLook(D3DXVECTOR3* look);
+
+		void reCorver();
 	private:
 		CameraType  _cameraType;
 		D3DXVECTOR3 _right;

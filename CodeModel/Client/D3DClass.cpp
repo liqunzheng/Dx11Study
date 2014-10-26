@@ -1,7 +1,7 @@
 #include "D3DClass.h"
 
 D3DClass::D3DClass(void)
-	{
+{
 	m_swapChain = 0;
 	m_device = 0;
 	m_deviceContext = 0;
@@ -11,27 +11,27 @@ D3DClass::D3DClass(void)
 	m_depthStencilView = 0;
 	m_rasterState = 0;
 
-	}
+}
 
 D3DClass::D3DClass(const D3DClass& other)
-	{
-	}
+{
+}
 
 
 
 D3DClass::~D3DClass(void)
-	{
-	}
+{
+}
 
 //Initialize函数包含完成D3D设置的所有代码。
-bool D3DClass::Initialize(int screenWidth, int screenHeight, bool vsync, HWND hwnd, bool fullscreen, 
+bool D3DClass::Initialize(int screenWidth, int screenHeight, bool vsync, HWND hwnd, bool fullscreen,
 	float screenDepth, float screenNear)
-	{
+{
 	HRESULT result;
 	IDXGIFactory* factory;
 	IDXGIAdapter* adapter;
 	IDXGIOutput* adapterOutput;
-	unsigned int numModes, i, numerator=0, denominator=1, stringLength;
+	unsigned int numModes, i, numerator = 0, denominator = 1, stringLength;
 	DXGI_MODE_DESC* displayModeList;
 	DXGI_ADAPTER_DESC adapterDesc;
 	int error;
@@ -51,63 +51,63 @@ bool D3DClass::Initialize(int screenWidth, int screenHeight, bool vsync, HWND hw
 
 	// 创建一个DirectX graphics interface factory.
 	result = CreateDXGIFactory(__uuidof(IDXGIFactory), (void**)&factory);
-	if(FAILED(result))
-		{
+	if (FAILED(result))
+	{
 		return false;
-		}
+	}
 
 	// 用接口工厂创建一个主显卡的适配
 	result = factory->EnumAdapters(0, &adapter);
-	if(FAILED(result))
-		{
+	if (FAILED(result))
+	{
 		return false;
-		}
+	}
 
 	// 得到主适配器的输出.
 	result = adapter->EnumOutputs(0, &adapterOutput);
-	if(FAILED(result))
-		{
+	if (FAILED(result))
+	{
 		return false;
-		}
+	}
 
 	//得到适合 DXGI_FORMAT_R8G8B8A8_UNORM 的显示模式.
 	result = adapterOutput->GetDisplayModeList(DXGI_FORMAT_R8G8B8A8_UNORM, DXGI_ENUM_MODES_INTERLACED, &numModes, NULL);
-	if(FAILED(result))
-		{
+	if (FAILED(result))
+	{
 		return false;
-		}
+	}
 
 	displayModeList = new DXGI_MODE_DESC[numModes];
-	if(!displayModeList)
-		{
+	if (!displayModeList)
+	{
 		return false;
-		}
+	}
 
 	// 保存显示模式到displayModeList中
 	result = adapterOutput->GetDisplayModeList(DXGI_FORMAT_R8G8B8A8_UNORM, DXGI_ENUM_MODES_INTERLACED, &numModes, displayModeList);
-	if(FAILED(result))
-		{
+	if (FAILED(result))
+	{
 		return false;
-		}
+	}
 
 	//遍历所有显示模式，得到刷新率两个参数值numerator 和 denominato
-	for(i=0; i<numModes; i++)
+	for (i = 0; i < numModes; i++)
+	{
+		if (displayModeList[i].Width == (unsigned int)screenWidth)
 		{
-		if(displayModeList[i].Width == (unsigned int)screenWidth)
+			if (displayModeList[i].Height == (unsigned int)screenHeight)
 			{
-			if(displayModeList[i].Height == (unsigned int)screenHeight)
-				{
 				numerator = displayModeList[i].RefreshRate.Numerator;
 				denominator = displayModeList[i].RefreshRate.Denominator;
-				}
 			}
 		}
+	}
 	// 得到显卡描述
 	result = adapter->GetDesc(&adapterDesc);
-	if(FAILED(result))
-		{
+	if (FAILED(result))
+	{
 		return false;
-		}
+	}
 
 	// 保存显存大小.
 	m_videoCardMemory = (int)(adapterDesc.DedicatedVideoMemory / 1024 / 1024);
@@ -115,12 +115,12 @@ bool D3DClass::Initialize(int screenWidth, int screenHeight, bool vsync, HWND hw
 	//保存显卡描述串
 	//wcstombs_s, wide char转化为char
 	error = wcstombs_s(&stringLength, m_videoCardDescription, 128, adapterDesc.Description, 128);
-	if(error != 0)
-		{
+	if (error != 0)
+	{
 		return false;
-		}
+	}
 	// 释放显示模式列表
-	delete [] displayModeList;
+	delete[] displayModeList;
 	displayModeList = 0;
 
 	//释放适配器输出.
@@ -152,16 +152,16 @@ bool D3DClass::Initialize(int screenWidth, int screenHeight, bool vsync, HWND hw
 	// 如果使用垂直同步，设置后缓冲的刷新率。.
 	//刷新率就是一秒钟把后缓冲内容在屏幕上画出的次数。
 	//如果开启垂直同步，则锁定刷新率，则fps是固定的
-	if(m_vsync_enabled)
-		{
+	if (m_vsync_enabled)
+	{
 		swapChainDesc.BufferDesc.RefreshRate.Numerator = numerator;
 		swapChainDesc.BufferDesc.RefreshRate.Denominator = denominator;
-		}
+	}
 	else
-		{
+	{
 		swapChainDesc.BufferDesc.RefreshRate.Numerator = 0;
 		swapChainDesc.BufferDesc.RefreshRate.Denominator = 1;
-		}
+	}
 
 	// 设置后缓冲的用途
 	// 我们的渲染目标缓冲为后缓冲。
@@ -175,14 +175,14 @@ bool D3DClass::Initialize(int screenWidth, int screenHeight, bool vsync, HWND hw
 	swapChainDesc.SampleDesc.Quality = 0;
 
 	// 设置全屏或者窗口模式.
-	if(fullscreen)
-		{
+	if (fullscreen)
+	{
 		swapChainDesc.Windowed = false;
-		}
+	}
 	else
-		{
+	{
 		swapChainDesc.Windowed = true;
-		}
+	}
 
 	// 设定扫描线ordering以及缩放为unspecified.
 	swapChainDesc.BufferDesc.ScanlineOrdering = DXGI_MODE_SCANLINE_ORDER_UNSPECIFIED;
@@ -199,26 +199,26 @@ bool D3DClass::Initialize(int screenWidth, int screenHeight, bool vsync, HWND hw
 	featureLevel = D3D_FEATURE_LEVEL_11_0;
 
 	// 创建交换链，设备以及设备上下文.
-	result = D3D11CreateDeviceAndSwapChain(NULL, D3D_DRIVER_TYPE_HARDWARE, NULL, 0, &featureLevel, 1, 
+	result = D3D11CreateDeviceAndSwapChain(NULL, D3D_DRIVER_TYPE_HARDWARE, NULL, 0, &featureLevel, 1,
 		D3D11_SDK_VERSION, &swapChainDesc, &m_swapChain, &m_device, NULL, &m_deviceContext);
-	if(FAILED(result))
-		{
+	if (FAILED(result))
+	{
 		return false;
-		}
+	}
 
 	// 得到交换链中的后缓冲指针.
 	result = m_swapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), (LPVOID*)&backBufferPtr);
-	if(FAILED(result))
-		{
+	if (FAILED(result))
+	{
 		return false;
-		}
+	}
 
 	// 用后缓冲创建渲染目标视图.
 	result = m_device->CreateRenderTargetView(backBufferPtr, NULL, &m_renderTargetView);
-	if(FAILED(result))
-		{
+	if (FAILED(result))
+	{
 		return false;
-		}
+	}
 
 	//释放后缓冲.(引用计数减1)
 	backBufferPtr->Release();
@@ -242,11 +242,11 @@ bool D3DClass::Initialize(int screenWidth, int screenHeight, bool vsync, HWND hw
 
 	// 创建深度缓冲.
 	result = m_device->CreateTexture2D(&depthBufferDesc, NULL, &m_depthStencilBuffer);
-	if(FAILED(result))
-		{
+	if (FAILED(result))
+	{
 		return false;
 
-		}
+	}
 
 	// 初始化深度模版状态描述.
 	ZeroMemory(&depthStencilDesc, sizeof(depthStencilDesc));
@@ -274,11 +274,11 @@ bool D3DClass::Initialize(int screenWidth, int screenHeight, bool vsync, HWND hw
 
 	// 创建深度模版状态，使其生效
 	result = m_device->CreateDepthStencilState(&depthStencilDesc, &m_depthStencilState);
-	if(FAILED(result))
-		{
+	if (FAILED(result))
+	{
 		return false;
 
-		}
+	}
 
 	// 设置深度模版状态.
 	m_deviceContext->OMSetDepthStencilState(m_depthStencilState, 1);
@@ -293,10 +293,10 @@ bool D3DClass::Initialize(int screenWidth, int screenHeight, bool vsync, HWND hw
 
 	// 创建深度模版视图.
 	result = m_device->CreateDepthStencilView(m_depthStencilBuffer, &depthStencilViewDesc, &m_depthStencilView);
-	if(FAILED(result))
-		{
+	if (FAILED(result))
+	{
 		return false;
-		}
+	}
 
 	// 绑定渲染目标视图和深度缓冲到渲染管线.
 	m_deviceContext->OMSetRenderTargets(1, &m_renderTargetView, m_depthStencilView);
@@ -316,10 +316,10 @@ bool D3DClass::Initialize(int screenWidth, int screenHeight, bool vsync, HWND hw
 
 	// 创建光栅化状态
 	result = m_device->CreateRasterizerState(&rasterDesc, &m_rasterState);
-	if(FAILED(result))
-		{
+	if (FAILED(result))
+	{
 		return false;
-		}
+	}
 
 	//设置光栅化状态，使其生效
 	m_deviceContext->RSSetState(m_rasterState);
@@ -354,140 +354,155 @@ bool D3DClass::Initialize(int screenWidth, int screenHeight, bool vsync, HWND hw
 	return true;
 
 
+}
+
+void D3DClass::Shutdown()
+{
+	// 释放交换链资源前，先设置为窗口模式，否则可能会产生异常.
+	if (m_swapChain)
+	{
+		m_swapChain->SetFullscreenState(false, NULL);
 	}
 
-	void D3DClass::Shutdown()
-		{
-		// 释放交换链资源前，先设置为窗口模式，否则可能会产生异常.
-		if(m_swapChain)
-			{
-			m_swapChain->SetFullscreenState(false, NULL);
-			}
+	if (m_rasterState)
+	{
+		m_rasterState->Release();
+		m_rasterState = 0;
+	}
 
-		if(m_rasterState)
-			{
-			m_rasterState->Release();
-			m_rasterState = 0;
-			}
+	if (m_depthStencilView)
+	{
+		m_depthStencilView->Release();
+		m_depthStencilView = 0;
+	}
 
-		if(m_depthStencilView)
-			{
-			m_depthStencilView->Release();
-			m_depthStencilView = 0;
-			}
+	if (m_depthStencilState)
+	{
+		m_depthStencilState->Release();
+		m_depthStencilState = 0;
+	}
 
-		if(m_depthStencilState)
-			{
-			m_depthStencilState->Release();
-			m_depthStencilState = 0;
-			}
+	if (m_depthStencilBuffer)
+	{
+		m_depthStencilBuffer->Release();
+		m_depthStencilBuffer = 0;
+	}
 
-		if(m_depthStencilBuffer)
-			{
-			m_depthStencilBuffer->Release();
-			m_depthStencilBuffer = 0;
-			}
+	if (m_renderTargetView)
+	{
+		m_renderTargetView->Release();
+		m_renderTargetView = 0;
+	}
 
-		if(m_renderTargetView)
-			{
-			m_renderTargetView->Release();
-			m_renderTargetView = 0;
-			}
+	if (m_deviceContext)
+	{
+		m_deviceContext->Release();
+		m_deviceContext = 0;
+	}
 
-		if(m_deviceContext)
-			{
-			m_deviceContext->Release();
-			m_deviceContext = 0;
-			}
+	if (m_device)
+	{
+		m_device->Release();
+		m_device = 0;
+	}
 
-		if(m_device)
-			{
-			m_device->Release();
-			m_device = 0;
-			}
+	if (m_swapChain)
+	{
+		m_swapChain->Release();
+		m_swapChain = 0;
+	}
 
-		if(m_swapChain)
-			{
-			m_swapChain->Release();
-			m_swapChain = 0;
-			}
+	return;
+}
 
-		return;
-		}
-
-	void D3DClass::BeginScene(float red, float green, float blue, float alpha)
-		{
-		float color[4];
+void D3DClass::BeginScene(float red, float green, float blue, float alpha)
+{
+	float color[4];
 
 
-		// 设置清除后缓冲颜色.
-		color[0] = red;
-		color[1] = green;
-		color[2] = blue;
-		color[3] = alpha;
+	// 设置清除后缓冲颜色.
+	color[0] = red;
+	color[1] = green;
+	color[2] = blue;
+	color[3] = alpha;
 
-		//清除后缓冲.
-		m_deviceContext->ClearRenderTargetView(m_renderTargetView, color);
+	//清除后缓冲.
+	m_deviceContext->ClearRenderTargetView(m_renderTargetView, color);
 
-		//清除深度缓冲.
-		m_deviceContext->ClearDepthStencilView(m_depthStencilView, D3D11_CLEAR_DEPTH, 1.0f, 0);
+	//清除深度缓冲.
+	m_deviceContext->ClearDepthStencilView(m_depthStencilView, D3D11_CLEAR_DEPTH, 1.0f, 0);
 
-		return;
-		}
-
-
-	void D3DClass::EndScene()
-		{
-		//渲染完成后，把后缓冲内容present到前缓冲
-		if(m_vsync_enabled)
-			{
-			// 锁定屏幕刷新率.
-			m_swapChain->Present(1, 0);
-			}
-		else
-			{
-			// 尽可能快的present后缓冲.
-			m_swapChain->Present(0, 0);
-			}
-
-		return;
-		}
-
-	ID3D11Device* D3DClass::GetDevice()
-		{
-		return m_device;
-		}
+	return;
+}
 
 
-	ID3D11DeviceContext* D3DClass::GetDeviceContext()
-		{
-		return m_deviceContext;
-		}
+void D3DClass::EndScene()
+{
+	//渲染完成后，把后缓冲内容present到前缓冲
+	if (m_vsync_enabled)
+	{
+		// 锁定屏幕刷新率.
+		m_swapChain->Present(1, 0);
+	}
+	else
+	{
+		// 尽可能快的present后缓冲.
+		m_swapChain->Present(0, 0);
+	}
 
-	void D3DClass::GetProjectionMatrix(D3DXMATRIX& projectionMatrix)
-		{
-		projectionMatrix = m_projectionMatrix;
-		return;
-		}
+	return;
+}
+
+ID3D11Device* D3DClass::GetDevice()
+{
+	return m_device;
+}
 
 
-	void D3DClass::GetWorldMatrix(D3DXMATRIX& worldMatrix)
-		{
-		worldMatrix = m_worldMatrix;
-		return;
-		}
+ID3D11DeviceContext* D3DClass::GetDeviceContext()
+{
+	return m_deviceContext;
+}
+
+void D3DClass::GetProjectionMatrix(D3DXMATRIX& projectionMatrix)
+{
+	projectionMatrix = m_projectionMatrix;
+	return;
+}
 
 
-	void D3DClass::GetOrthoMatrix(D3DXMATRIX& orthoMatrix)
-		{
-		orthoMatrix = m_orthoMatrix;
-		return;
-		}
+void D3DClass::GetWorldMatrix(D3DXMATRIX& worldMatrix)
+{
+	worldMatrix = m_worldMatrix;
+	return;
+}
 
-	void D3DClass::GetVideoCardInfo(char* cardName, int& memory)
-		{
-		strcpy_s(cardName, 128, m_videoCardDescription);
-		memory = m_videoCardMemory;
-		return;
-		}
+
+void D3DClass::GetOrthoMatrix(D3DXMATRIX& orthoMatrix)
+{
+	orthoMatrix = m_orthoMatrix;
+	return;
+}
+
+void D3DClass::GetVideoCardInfo(char* cardName, int& memory)
+{
+	strcpy_s(cardName, 128, m_videoCardDescription);
+	memory = m_videoCardMemory;
+	return;
+}
+
+sRay D3DClass::calculate_picking_ray(int x, int y)
+{
+	D3D11_VIEWPORT viewport;
+	UINT uNum = 1;
+	m_deviceContext->RSGetViewports(&uNum, &viewport);
+
+	float px = (((2.0f * x) / viewport.Width) - 1.0f) / m_projectionMatrix(0, 0);
+	float py = (((-2.0f * y) / viewport.Height) + 1.0f) / m_projectionMatrix(1, 1);
+
+	sRay ray;
+	ray.origin = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+	ray.direction = D3DXVECTOR3(px, py, 1.0f);
+	return ray;
+}
 

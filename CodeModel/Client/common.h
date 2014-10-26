@@ -16,6 +16,7 @@
 
 #include <dxerr.h>
 #include <cassert>
+#include "TraceWin.h"
 
 //一个简单的错误检测宏
 
@@ -51,3 +52,44 @@ const D3DXVECTOR4 BEACH_SAND(1.0f, 0.96f, 0.62f, 1.0f);
 const D3DXVECTOR4 LIGHT_YELLOW_GREEN(0.48f, 0.77f, 0.46f, 1.0f);
 const D3DXVECTOR4 DARK_YELLOW_GREEN(0.1f, 0.48f, 0.19f, 1.0f);
 const D3DXVECTOR4 DARKBROWN(0.45f, 0.39f, 0.34f, 1.0f);
+
+struct sRay
+{
+	D3DXVECTOR3 origin;
+	D3DXVECTOR3 direction;
+};
+
+
+class cBoundingBox
+{
+public:
+	D3DXVECTOR3 m_min, m_max;
+
+	cBoundingBox()
+	{
+		m_min.x = FLT_MAX;
+		m_min.y = FLT_MAX;
+		m_min.z = FLT_MAX;
+
+		m_max.x = -FLT_MAX;
+		m_max.y = -FLT_MAX;
+		m_max.z = -FLT_MAX;
+	}
+	bool is_point_inside(D3DXVECTOR3& point)
+	{
+		return (point.x >= m_min.x && point.y >= m_min.y && point.z >= m_min.z &&
+			point.x <= m_max.x && point.y <= m_max.y && point.z <= m_max.z);
+	}
+};
+
+class cBoundingSphere
+{
+public:
+	D3DXVECTOR3 m_center;
+	float		m_radius;
+
+	cBoundingSphere()
+	{
+		m_radius = 0.0f;
+	}
+};

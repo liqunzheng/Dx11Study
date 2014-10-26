@@ -30,6 +30,8 @@ public:
 	void Shutdown();
 	bool Frame();
 	CameraClass* m_Camera;
+
+	void pick(int x, int y);
 private:
 	bool Render();
 
