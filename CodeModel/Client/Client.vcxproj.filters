@@ -57,6 +57,9 @@
     <ClCompile Include="LightShaderClass.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="PlaneModelClass.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SystemClass.h">
@@ -96,6 +99,9 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="LightShaderClass.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="PlaneModelClass.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>

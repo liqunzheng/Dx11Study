@@ -7,6 +7,10 @@ CubeModelClass::CubeModelClass()
 	m_indexCount = 0;
 }
 
+CubeModelClass::CubeModelClass(const CubeModelClass & src)
+{
+
+}
 
 CubeModelClass::~CubeModelClass()
 {

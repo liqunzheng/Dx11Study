@@ -8,6 +8,11 @@ GraphicsClass::GraphicsClass(void)
 	m_Model = 0;
 	m_AxisModel = 0;
 	m_ColorShader = 0;
+
+	m_PlaneModel = 0;
+	m_CubeModel = 0;
+	m_Light = 0;
+	m_LightShader = 0;
 }
 
 GraphicsClass::GraphicsClass(const GraphicsClass&)
@@ -58,7 +63,7 @@ bool GraphicsClass::Initialize(int screenWidth, int screenHeight, HWND hwnd)
 	}
 
 	// 初始化模型对象.
-	result = m_Model->Initialize(m_D3D->GetDevice(), 300, 300, 1.0f);
+	result = m_Model->Initialize(m_D3D->GetDevice());
 	if (!result)
 	{
 		MessageBox(hwnd, L"Could not initialize the model object.", L"Error", MB_OK);
@@ -79,13 +84,39 @@ bool GraphicsClass::Initialize(int screenWidth, int screenHeight, HWND hwnd)
 		return false;
 	}
 
+	// 初始化平面模型对象.
+	m_PlaneModel = new PlaneModelClass;
+	if (!m_PlaneModel)
+	{
+		return false;
+	}
+	result = m_PlaneModel->Initialize(m_D3D->GetDevice());
+	if (!result)
+	{
+		MessageBox(hwnd, L"Could not initialize the plane model object.", L"Error", MB_OK);
+		return false;
+	}
+
+	// 创建cube模型对象
+	m_CubeModel = new CubeModelClass;
+	if (!m_CubeModel)
+	{
+		return false;
+	}
+	// 初始化坐标cube模型对象.
+	result = m_CubeModel->Initialize(m_D3D->GetDevice());
+	if (!result)
+	{
+		MessageBox(hwnd, L"Could not initialize the axis model object.", L"Error", MB_OK);
+		return false;
+	}
+
 	// 创建shader对象
 	m_ColorShader = new ColorShaderClass;
 	if (!m_ColorShader)
 	{
 		return false;
 	}
-
 	// 初始化shader对象
 	result = m_ColorShader->Initialize(m_D3D->GetDevice(), hwnd);
 	if (!result)
@@ -93,12 +124,52 @@ bool GraphicsClass::Initialize(int screenWidth, int screenHeight, HWND hwnd)
 		MessageBox(hwnd, L"Could not initialize the color shader object.", L"Error", MB_OK);
 		return false;
 	}
+	// 创建光照shader类
+	m_LightShader = new LightShaderClass;
+	if (!m_LightShader)
+	{
+		return false;
+	}
+
+	//初始化光照shader对象
+	result = m_LightShader->Initialize(m_D3D->GetDevice(), hwnd);
+	if (!result)
+	{
+		MessageBox(hwnd, L"Could not initialize the light shader object.", L"Error", MB_OK);
+		return false;
+	}
+
+	// 创建光源对象.
+	m_Light = new LightClass;
+	if (!m_Light)
+	{
+		return false;
+	}
+
+	//设置光源位置，其它的参数使用默认值
+	m_Light->SetLightPosition(5.0f, 3.0f, -1.0f);
 
 	return true;
 }
 
 void GraphicsClass::Shutdown()
 {
+
+	// 释放光源对象.
+	if (m_Light)
+	{
+		delete m_Light;
+		m_Light = 0;
+	}
+
+	// 释放光照材质shader对象.
+	if (m_LightShader)
+	{
+		m_LightShader->Shutdown();
+		delete m_LightShader;
+		m_LightShader = 0;
+	}
+
 	// 释放shader对象.
 	if (m_ColorShader)
 	{
@@ -114,13 +185,28 @@ void GraphicsClass::Shutdown()
 		delete m_Model;
 		m_Model = 0;
 	}
-
 	// 释放坐标轴模型对象.
 	if (m_AxisModel)
 	{
 		m_AxisModel->Shutdown();
 		delete m_AxisModel;
 		m_AxisModel = 0;
+	}
+
+	//释放plane模型对象
+	if (m_PlaneModel)
+	{
+		m_PlaneModel->Shutdown();
+		delete m_PlaneModel;
+		m_PlaneModel = 0;
+	}
+
+	//释放cube模型对象
+	if (m_CubeModel)
+	{
+		m_CubeModel->Shutdown();
+		delete m_CubeModel;
+		m_CubeModel = 0;
 	}
 
 	// 释放摄像机对象
@@ -184,6 +270,33 @@ bool GraphicsClass::Render()
 
 	// 用shader渲染.
 	result = m_ColorShader->Render(m_D3D->GetDeviceContext(), m_Model->GetIndexCount(), worldMatrix, viewMatrix, projectionMatrix);
+	if (!result)
+	{
+		return false;
+	}
+	//得到摄像机位置和一些材质光照系数
+	D3DXVECTOR3 camerapos;
+	D3DXVECTOR3 Ke = D3DXVECTOR3(1.0, 0.0, 0.0);
+	D3DXVECTOR3 Ka = D3DXVECTOR3(1.0, 1.0, 1.0);
+	D3DXVECTOR3 Kd = D3DXVECTOR3(1.0, 1.0, 1.0);
+	D3DXVECTOR3 Ks = D3DXVECTOR3(1.0, 1.0, 1.0);
+	m_Camera->getPosition(&camerapos);
+
+	//把cube顶点和索引数据放入缓冲区，准备渲染
+	m_CubeModel->Render(m_D3D->GetDeviceContext());
+	//用light shader渲染
+	result = m_LightShader->Render(m_D3D->GetDeviceContext(), m_Model->GetIndexCount(), worldMatrix, viewMatrix, projectionMatrix,
+		camerapos);
+	if (!result)
+	{
+		return false;
+	}
+
+	//把cube顶点和索引数据放入缓冲区，准备渲染
+	m_PlaneModel->Render(m_D3D->GetDeviceContext());
+	//用light shader渲染
+	result = m_LightShader->Render(m_D3D->GetDeviceContext(), m_Model->GetIndexCount(), worldMatrix, viewMatrix, projectionMatrix,
+		camerapos);
 	if (!result)
 	{
 		return false;

@@ -1,23 +1,22 @@
-#include "ModelClass.h"
+#include "PlaneModelClass.h"
 
 
-ModelClass::ModelClass(void)
+PlaneModelClass::PlaneModelClass(void)
 {
 	m_vertexBuffer = 0;
 	m_indexBuffer = 0;
-
 }
 
-ModelClass::ModelClass(const ModelClass & others)
+PlaneModelClass::PlaneModelClass(const PlaneModelClass& others)
 {
 
 }
 
-ModelClass::~ModelClass(void)
+PlaneModelClass::~PlaneModelClass(void)
 {
 }
 
-bool ModelClass::Initialize(ID3D11Device* device)
+bool PlaneModelClass::Initialize(ID3D11Device* device)
 {
 	bool result;
 
@@ -32,7 +31,7 @@ bool ModelClass::Initialize(ID3D11Device* device)
 	return true;
 }
 
-void ModelClass::Shutdown()
+void PlaneModelClass::Shutdown()
 {
 	// 释放顶点和索引缓冲.
 	ShutdownBuffers();
@@ -40,7 +39,7 @@ void ModelClass::Shutdown()
 	return;
 }
 
-void ModelClass::Render(ID3D11DeviceContext* deviceContext)
+void PlaneModelClass::Render(ID3D11DeviceContext* deviceContext)
 {
 	// 把顶点和索引缓冲放入图形管线，准备渲染.
 	RenderBuffers(deviceContext);
@@ -48,13 +47,13 @@ void ModelClass::Render(ID3D11DeviceContext* deviceContext)
 	return;
 }
 
-int ModelClass::GetIndexCount()
+int PlaneModelClass::GetIndexCount()
 {
 	//返回索引顶点计数
 	return m_indexCount;
 }
 
-bool ModelClass::InitializeBuffers(ID3D11Device* device)
+bool PlaneModelClass::InitializeBuffers(ID3D11Device* device)
 {
 	VertexType* vertices;
 	unsigned long* indices;
@@ -64,11 +63,11 @@ bool ModelClass::InitializeBuffers(ID3D11Device* device)
 
 	//首先，我们创建2个临时缓冲存放顶点和索引数据，以便后面使用。. 
 
-	// 设置顶点缓冲大小为8，一个正方体.
-	m_vertexCount = 8;
+	// 设置顶点缓冲大小为4，一个平面.
+	m_vertexCount = 4;
 
-	// 设置索引缓冲大小.
-	m_indexCount = 36;
+	// 设置索引缓冲大小.,两个三角形
+	m_indexCount = 6;
 
 	// 创建顶点临时缓冲.
 	vertices = new VertexType[m_vertexCount];
@@ -85,29 +84,18 @@ bool ModelClass::InitializeBuffers(ID3D11Device* device)
 	}
 	//创建顺时针方向的三角形，左手规则
 	// 设置顶点数据.
-	vertices[0].position = D3DXVECTOR3(4.0f, -1.0f, -1.0f);
-	vertices[0].color = WHITE;
+	vertices[0].position = D3DXVECTOR3(-50.0f, -3.0f, -50.0f);
+	vertices[0].normal = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
 
-	vertices[1].position = D3DXVECTOR3(4.0f, 1.0f, -1.0f);
-	vertices[1].color = BLACK;
+	vertices[1].position = D3DXVECTOR3(-50.0f, -3.0f, 50.0f);
+	vertices[1].normal = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
 
-	vertices[2].position = D3DXVECTOR3(6.0f, 1.0f, -1.0f);
-	vertices[2].color = RED;
+	vertices[2].position = D3DXVECTOR3(50.0f, -3.0f, 50.0f);
+	vertices[2].normal = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
 
-	vertices[3].position = D3DXVECTOR3(6.0f, -1.0f, -1.0f);
-	vertices[3].color = GREEN;
+	vertices[3].position = D3DXVECTOR3(50.0f, -3.0f, -50.0f);
+	vertices[3].normal = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
 
-	vertices[4].position = D3DXVECTOR3(4.0f, -1.0f, 1.0f);
-	vertices[4].color = BLUE;
-
-	vertices[5].position = D3DXVECTOR3(4.0f, 1.0f, 1.0f);
-	vertices[5].color = YELLOW;
-
-	vertices[6].position = D3DXVECTOR3(6.0f, 1.0f, 1.0f);
-	vertices[6].color = CYAN;
-
-	vertices[7].position = D3DXVECTOR3(6.0f, -1.0f, 1.0f);
-	vertices[7].color = MAGENTA;
 
 	// 设置索引缓冲数据.
 	indices[0] = 0;  // 前面
@@ -116,42 +104,6 @@ bool ModelClass::InitializeBuffers(ID3D11Device* device)
 	indices[3] = 0;
 	indices[4] = 2;
 	indices[5] = 3;
-
-	indices[6] = 4;  // 后面
-	indices[7] = 6;
-	indices[8] = 5;
-	indices[9] = 4;
-	indices[10] = 7;
-	indices[11] = 6;
-
-	indices[12] = 4;  // 左面
-	indices[13] = 5;
-	indices[14] = 1;
-	indices[15] = 4;
-	indices[16] = 1;
-	indices[17] = 0;
-
-	indices[18] = 3;  //右面
-	indices[19] = 2;
-	indices[20] = 6;
-	indices[21] = 3;
-	indices[22] = 6;
-	indices[23] = 7;
-
-	indices[24] = 1;  // 上面
-	indices[25] = 5;
-	indices[26] = 6;
-	indices[27] = 1;
-	indices[28] = 6;
-	indices[29] = 2;
-
-	indices[30] = 4;  // 下面
-	indices[31] = 0;
-	indices[32] = 3;
-	indices[33] = 4;
-	indices[34] = 3;
-	indices[35] = 7;
-
 
 	// 设置顶点缓冲描述
 	vertexBufferDesc.Usage = D3D11_USAGE_DEFAULT;
@@ -205,7 +157,7 @@ bool ModelClass::InitializeBuffers(ID3D11Device* device)
 	return true;
 }
 
-void ModelClass::ShutdownBuffers()
+void PlaneModelClass::ShutdownBuffers()
 {
 	// 释放顶点缓冲.
 	if (m_indexBuffer)
@@ -224,7 +176,7 @@ void ModelClass::ShutdownBuffers()
 	return;
 }
 
-void ModelClass::RenderBuffers(ID3D11DeviceContext* deviceContext)
+void PlaneModelClass::RenderBuffers(ID3D11DeviceContext* deviceContext)
 {
 	unsigned int stride;
 	unsigned int offset;

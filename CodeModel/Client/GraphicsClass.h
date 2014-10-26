@@ -6,6 +6,11 @@
 #include "modelclass.h"
 #include "AxisModelClass.h"
 #include "colorshaderclass.h"
+#include "CubeModelClass.h"
+#include "PlaneModelClass.h"
+#include "LightShaderClass.h"
+#include "LightClass.h"
+
 
 /////////////
 // GLOBALS //
@@ -35,5 +40,10 @@ private:
 	AxisModelClass* m_AxisModel;
 	ColorShaderClass* m_ColorShader;
 
+	PlaneModelClass* m_PlaneModel;
+	CubeModelClass* m_CubeModel;
+
+	LightClass* m_Light;
+	LightShaderClass *m_LightShader;
 };
 
