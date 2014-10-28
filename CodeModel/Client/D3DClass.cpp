@@ -491,7 +491,7 @@ void D3DClass::GetVideoCardInfo(char* cardName, int& memory)
 	return;
 }
 
-sRay D3DClass::calculate_picking_ray(int x, int y)
+CRay D3DClass::calculate_picking_ray(int x, int y)
 {
 	D3D11_VIEWPORT viewport;
 	UINT uNum = 1;
@@ -500,9 +500,9 @@ sRay D3DClass::calculate_picking_ray(int x, int y)
 	float px = (((2.0f * x) / viewport.Width) - 1.0f) / m_projectionMatrix(0, 0);
 	float py = (((-2.0f * y) / viewport.Height) + 1.0f) / m_projectionMatrix(1, 1);
 
-	sRay ray;
-	ray.origin = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
-	ray.direction = D3DXVECTOR3(px, py, 1.0f);
+	CRay ray;
+	ray.m_ptOrigin = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+	ray.m_ptDirection = D3DXVECTOR3(px, py, 1.0f);
 	return ray;
 }
 

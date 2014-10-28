@@ -2,16 +2,16 @@
 
 namespace
 {
-	void transform_ray(sRay* ray, D3DXMATRIX* trans_matrix)
+	void transform_ray(CRay* ray, D3DXMATRIX* trans_matrix)
 	{
 		// transform the ray's origin, w = 1.
-		D3DXVec3TransformCoord(&ray->origin, &ray->origin, trans_matrix);
+		D3DXVec3TransformCoord(&ray->m_ptOrigin, &ray->m_ptOrigin, trans_matrix);
 
 		// transform the ray's direction, w = 0.
-		D3DXVec3TransformNormal(&ray->direction, &ray->direction, trans_matrix);
+		D3DXVec3TransformNormal(&ray->m_ptDirection, &ray->m_ptDirection, trans_matrix);
 
 		// normalize the direction
-		D3DXVec3Normalize(&ray->direction, &ray->direction);
+		D3DXVec3Normalize(&ray->m_ptDirection, &ray->m_ptDirection);
 	}
 }
 
@@ -277,10 +277,8 @@ bool GraphicsClass::Frame()
 
 bool GraphicsClass::Render()
 {
-	m_D2D->Render();
-	return true;
-
-
+	//m_D2D->Render();
+	//return true;
 
 	D3DXMATRIX viewMatrix, projectionMatrix, worldMatrix;
 	bool result;
@@ -311,14 +309,13 @@ bool GraphicsClass::Render()
 		return false;
 	}
 
-
 	//得到摄像机位置和一些材质光照系数
 	D3DXVECTOR3 camerapos;
 	D3DXVECTOR4 realcamerpos;
-	D3DXVECTOR4 Ke = D3DXVECTOR4(0.8, 0.0, 0.2, 1.0);
-	D3DXVECTOR4 Ka = D3DXVECTOR4(0.2, 0.2, 0.2, 1.0);
-	D3DXVECTOR4 Kd = D3DXVECTOR4(0.7, 0.5, 0.6, 1.0);
-	D3DXVECTOR4 Ks = D3DXVECTOR4(1.0, 1.0, 1.0, 1.0);
+	D3DXVECTOR4 Ke = D3DXVECTOR4(0.8f, 0.0f, 0.2f, 1.0f);
+	D3DXVECTOR4 Ka = D3DXVECTOR4(0.2f, 0.2f, 0.2f, 1.0f);
+	D3DXVECTOR4 Kd = D3DXVECTOR4(0.7f, 0.5f, 0.6f, 1.0f);
+	D3DXVECTOR4 Ks = D3DXVECTOR4(1.0f, 1.0f, 1.0f, 1.0f);
 	m_Camera->getPosition(&camerapos);
 	realcamerpos = D3DXVECTOR4(camerapos.x, camerapos.y, camerapos.z, 1.0);
 	//把cube顶点和索引数据放入缓冲区，准备渲染
@@ -332,10 +329,10 @@ bool GraphicsClass::Render()
 		return false;
 	}
 
-	Ke = D3DXVECTOR4(0.2, 0.8, 0.0, 1.0);
-	Ka = D3DXVECTOR4(0.3, 0.3, 0.3, 1.0);
-	Kd = D3DXVECTOR4(1.0, 1.0, 1.0, 1.0);
-	Ks = D3DXVECTOR4(1.0, 1.0, 1.0, 1.0);
+	Ke = D3DXVECTOR4(0.2f, 0.8f, 0.0f, 1.0f);
+	Ka = D3DXVECTOR4(0.3f, 0.3f, 0.3f, 1.0f);
+	Kd = D3DXVECTOR4(1.0f, 1.0f, 1.0f, 1.0f);
+	Ks = D3DXVECTOR4(1.0f, 1.0f, 1.0f, 1.0f);
 
 	//把cube顶点和索引数据放入缓冲区，准备渲染
 	m_PlaneModel->Render(m_D3D->GetDeviceContext());
@@ -357,7 +354,7 @@ bool GraphicsClass::Render()
 
 void GraphicsClass::pick(int x, int y)
 {
-	sRay ray = m_D3D->calculate_picking_ray(x, y);
+	CRay ray = m_D3D->calculate_picking_ray(x, y);
 	D3DXMATRIX view_matrix, view_inverse_matrix;
 	m_Camera->getViewMatrix(&view_matrix);
 

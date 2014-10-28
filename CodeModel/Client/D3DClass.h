@@ -36,7 +36,7 @@ public:
 
 	void GetVideoCardInfo(char*, int&);
 
-	sRay calculate_picking_ray(int x, int y);
+	CRay calculate_picking_ray(int x, int y);
 
 private:
 	bool m_vsync_enabled; //是否启用垂直同步

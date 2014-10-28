@@ -20,7 +20,7 @@ public:
 
 	int GetIndexCount();
 
-	bool InsectRay(sRay* ray);
+	bool InsectRay(CRay* ray);
 private:
 	bool InitializeBuffers(ID3D11Device*);
 	void ShutdownBuffers();
@@ -29,6 +29,7 @@ private:
 	ID3D11Buffer *m_vertexBuffer, *m_indexBuffer;
 	int m_vertexCount, m_indexCount;
 
-	cBoundingSphere m_boundingSphere;
+	CBoundingSphere m_boundingSphere;
+	CBoundingBox m_boundingBox;
 };
 
