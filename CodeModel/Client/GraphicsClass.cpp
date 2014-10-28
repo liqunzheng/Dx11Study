@@ -19,6 +19,7 @@ namespace
 GraphicsClass::GraphicsClass(void)
 {
 	m_D3D = 0;
+	m_D2D = 0;
 	m_Camera = 0;
 	m_Model = 0;
 	m_AxisModel = 0;
@@ -58,6 +59,18 @@ bool GraphicsClass::Initialize(int screenWidth, int screenHeight, HWND hwnd)
 	if (!result)
 	{
 		MessageBox(hwnd, L"Could not initialize Direct3D", L"Error", MB_OK);
+		return false;
+	}
+
+	m_D2D = new D2DClass;
+	if (!m_D2D)
+	{
+		return false;
+	}
+	result = m_D2D->InitD2D(hwnd);
+	if (!result)
+	{
+		MessageBox(hwnd, L"Could not initialize Direct2D", L"Error", MB_OK);
 		return false;
 	}
 
@@ -264,6 +277,10 @@ bool GraphicsClass::Frame()
 
 bool GraphicsClass::Render()
 {
+	m_D2D->Render();
+	return true;
+
+
 
 	D3DXMATRIX viewMatrix, projectionMatrix, worldMatrix;
 	bool result;
@@ -331,9 +348,9 @@ bool GraphicsClass::Render()
 		return false;
 	}
 
-
 	//把framebuffer中的图像present到屏幕上.
 	m_D3D->EndScene();
+
 
 	return true;
 }

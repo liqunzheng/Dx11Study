@@ -2,6 +2,7 @@
 
 #include <windows.h>
 #include "d3dclass.h"
+#include "D2DClass.h"
 #include "cameraclass.h"
 #include "modelclass.h"
 #include "AxisModelClass.h"
@@ -37,6 +38,7 @@ private:
 
 	//定义一个D3DClass类成员变量
 	D3DClass* m_D3D;
+	D2DClass* m_D2D;
 
 	ModelClass* m_Model;
 	AxisModelClass* m_AxisModel;

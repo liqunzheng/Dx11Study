@@ -57,6 +57,9 @@
     <ClCompile Include="PlaneModelClass.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="D2DClass.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SystemClass.h">
@@ -102,6 +105,9 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="TraceWin.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="D2DClass.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
