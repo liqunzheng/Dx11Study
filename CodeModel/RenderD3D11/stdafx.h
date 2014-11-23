@@ -17,7 +17,7 @@
 
 #include <d3d11.h>
 #include <d3dx10math.h>
-
+#include <d3dx11async.h>
 
 
 // TODO:  在此处引用程序需要的其他头文件

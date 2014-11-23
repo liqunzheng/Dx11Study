@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "ShaderManager.h"
 #include "MtlShader.h"
+#include "ColorShader.h"
 
 
 CShaderManager::CShaderManager()
@@ -46,6 +47,11 @@ IShader* CShaderManager::createShader(const std::wstring& strShaderName, CD3D11C
 	if (strShaderName.compare(L"CMtlShader") == 0)
 	{
 		pShader = new CMtlShader();
+		pShader->Initialize(pD3DRoot);
+	}
+	if (strShaderName.compare(L"CColorShader") == 0)
+	{
+		pShader = new CColorShader();
 		pShader->Initialize(pD3DRoot);
 	}
 	return pShader;

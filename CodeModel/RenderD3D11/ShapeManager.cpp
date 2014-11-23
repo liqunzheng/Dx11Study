@@ -1,11 +1,11 @@
 #include "stdafx.h"
 #include "D3D11Class.h"
 #include "ShapeManager.h"
-#include "MtlShape.h"
 #include "TextureManager.h"
 #include "ShaderManager.h"
 #include "IShader.h"
-
+#include "MtlShape.h"
+#include "LineShape.h"
 
 
 CShapeManager::CShapeManager()
@@ -22,7 +22,11 @@ void CShapeManager::Initialize(const std::wstring& strFileName, CD3D11Class* pD3
 {
 	CMtlShape *pModel = new CMtlShape();
 	pModel->Initialize(pD3DRoot);
-	m_models.push_back(pModel);	
+	m_models.push_back(pModel);
+
+	CLineShape *pLine = new CLineShape();
+	pLine->Initialize(pD3DRoot);
+	m_models.push_back(pLine);
 }
 
 void CShapeManager::Shutdown()

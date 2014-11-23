@@ -1,28 +1,27 @@
 #include "stdafx.h"
-#include "MtlShader.h"
+#include "ColorShader.h"
 #include "D3D11Class.h"
 
 
-CMtlShader::CMtlShader()
+CColorShader::CColorShader()
 {
-	m_strName = L"CMtlShader";
-	m_strPSName = L"Material.ps";
-	m_strVSName = L"Material.vs";
+	m_strName = L"CColorShader";
+	m_strPSName = L"color.ps";
+	m_strVSName = L"color.vs";
 
 	m_vertexShader = 0;
 	m_pixelShader = 0;
 	m_layout = 0;
 	m_matrixBuffer = 0;
-	m_sampleState = 0;
 }
 
 
-CMtlShader::~CMtlShader()
+CColorShader::~CColorShader()
 {
 	Shutdown();
 }
 
-bool CMtlShader::Initialize(CD3D11Class* p3DRoot)
+bool CColorShader::Initialize(CD3D11Class* p3DRoot)
 {
 	ID3D10Blob* errorMessage = 0;
 	std::wstring strErrorMessage;
@@ -100,9 +99,9 @@ bool CMtlShader::Initialize(CD3D11Class* p3DRoot)
 	polygonLayout[0].InputSlotClass = D3D11_INPUT_PER_VERTEX_DATA;
 	polygonLayout[0].InstanceDataStepRate = 0;
 
-	polygonLayout[1].SemanticName = "TEXCOORD";
+	polygonLayout[1].SemanticName = "COLOR";
 	polygonLayout[1].SemanticIndex = 0;
-	polygonLayout[1].Format = DXGI_FORMAT_R32G32_FLOAT;
+	polygonLayout[1].Format = DXGI_FORMAT_R32G32B32A32_FLOAT;
 	polygonLayout[1].InputSlot = 0;
 	polygonLayout[1].AlignedByteOffset = D3D11_APPEND_ALIGNED_ELEMENT;
 	polygonLayout[1].InputSlotClass = D3D11_INPUT_PER_VERTEX_DATA;
@@ -142,41 +141,11 @@ bool CMtlShader::Initialize(CD3D11Class* p3DRoot)
 		return false;
 	}
 
-	// 创建纹理采样描述符
-	D3D11_SAMPLER_DESC samplerDesc;
-	samplerDesc.Filter = D3D11_FILTER_MIN_MAG_MIP_POINT;
-	samplerDesc.AddressU = D3D11_TEXTURE_ADDRESS_MIRROR_ONCE;
-	samplerDesc.AddressV = D3D11_TEXTURE_ADDRESS_MIRROR_ONCE;
-	samplerDesc.AddressW = D3D11_TEXTURE_ADDRESS_WRAP;
-	samplerDesc.MipLODBias = 0.0f;
-	samplerDesc.MaxAnisotropy = 1;
-	samplerDesc.ComparisonFunc = D3D11_COMPARISON_ALWAYS;
-	samplerDesc.BorderColor[0] = 1.0;
-	samplerDesc.BorderColor[1] = 0;
-	samplerDesc.BorderColor[2] = 0;
-	samplerDesc.BorderColor[3] = 1.0;
-	samplerDesc.MinLOD = 0;
-	samplerDesc.MaxLOD = D3D11_FLOAT32_MAX;
-
-	// 创建纹理采样状态.
-	result = p3DRoot->GetDevice()->CreateSamplerState(&samplerDesc, &m_sampleState);
-	if (FAILED(result))
-	{
-		return false;
-	}
-
 	return true;
 }
 
-void CMtlShader::Shutdown()
+void CColorShader::Shutdown()
 {
-	// 释放采样状态
-	if (m_sampleState)
-	{
-		m_sampleState->Release();
-		m_sampleState = 0;
-	}
-
 	// 释放常量缓冲
 	if (m_matrixBuffer)
 	{
@@ -206,7 +175,7 @@ void CMtlShader::Shutdown()
 	}
 }
 
-bool CMtlShader::Render(CD3D11Class* p3DRoot, UINT indexCount)
+bool CColorShader::Render(CD3D11Class* p3DRoot, UINT indexCount)
 {
 	// 绑定顶点布局.
 	p3DRoot->GetDeviceContext()->IASetInputLayout(m_layout);
@@ -215,16 +184,13 @@ bool CMtlShader::Render(CD3D11Class* p3DRoot, UINT indexCount)
 	p3DRoot->GetDeviceContext()->VSSetShader(m_vertexShader, NULL, 0);
 	p3DRoot->GetDeviceContext()->PSSetShader(m_pixelShader, NULL, 0);
 
-	//设置采样状态
-	p3DRoot->GetDeviceContext()->PSSetSamplers(0, 1, &m_sampleState);
-
 	// 渲染三角形
 	p3DRoot->GetDeviceContext()->DrawIndexed(indexCount, 0, 0);
-	
+
 	return true;
 }
 
-bool CMtlShader::SetMatrix(CD3D11Class* p3DRoot, D3DXMATRIX mxWorld, D3DXMATRIX mxView, D3DXMATRIX mxProject)
+bool CColorShader::SetMatrix(CD3D11Class* p3DRoot, D3DXMATRIX mxWorld, D3DXMATRIX mxView, D3DXMATRIX mxProject)
 {
 	// 传入shader前，确保矩阵转置，这是D3D11的要求.
 	D3DXMatrixTranspose(&mxWorld, &mxWorld);
@@ -252,14 +218,11 @@ bool CMtlShader::SetMatrix(CD3D11Class* p3DRoot, D3DXMATRIX mxWorld, D3DXMATRIX 
 
 	// 用更新后的值设置常量缓冲.
 	p3DRoot->GetDeviceContext()->VSSetConstantBuffers(0, 1, &m_matrixBuffer);
-	
+
 	return true;
 }
 
-bool CMtlShader::SetShaderResource(CD3D11Class* p3DRoot, ID3D11ShaderResourceView* pResource)
+bool CColorShader::SetShaderResource(CD3D11Class*, ID3D11ShaderResourceView*)
 {
-	// 设置ps shader资源.
-	p3DRoot->GetDeviceContext()->PSSetShaderResources(0, 1, &pResource);
 	return true;
 }
-

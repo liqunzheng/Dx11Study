@@ -211,12 +211,12 @@ D3DXMATRIX CMtlShape::GetWorldMatrix() const
 	return m_mxWorld;
 }
 
-const std::wstring& CMtlShape::GetMtlName() const
+std::wstring CMtlShape::GetMtlName() const
 {
 	return m_strMtlName;
 }
 
-const std::wstring& CMtlShape::GetShaderName() const
+std::wstring CMtlShape::GetShaderName() const
 {
 	return m_strShaderName;
 }

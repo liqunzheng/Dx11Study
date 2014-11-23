@@ -32,7 +32,6 @@ public:
 	void Shutdown();
 	bool Frame();
 	void pick(int x, int y);
-private:
 	bool Render();
 
 	//定义一个D3DClass类成员变量

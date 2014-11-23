@@ -51,6 +51,12 @@
     <ClInclude Include="MtlShader.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="LineShape.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="ColorShader.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -75,6 +81,12 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="MtlShader.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="LineShape.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="ColorShader.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

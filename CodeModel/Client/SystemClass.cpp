@@ -137,26 +137,26 @@ bool SystemClass::Frame()
 	}
 
 	//如果A,S,D,W,Q,E,Z,X,C键按下，移动摄像机 
-	//if (GetAsyncKeyState('W') & 0x8000)    //前后 
-	//	m_Graphics->m_Camera->walk(-0.1f);
-	//if (GetAsyncKeyState('S') & 0x8000)
-	//	m_Graphics->m_Camera->walk(0.1f);
-	//if (GetAsyncKeyState('A') & 0x8000)    //左右 
-	//	m_Graphics->m_Camera->strafe(-0.1f);
-	//if (GetAsyncKeyState('D') & 0x8000)
-	//	m_Graphics->m_Camera->strafe(0.1f);
-	//if (GetAsyncKeyState('Q') & 0x8000)    //上下 
-	//	m_Graphics->m_Camera->fly(-0.1f);
-	//if (GetAsyncKeyState('E') & 0x8000)
-	//	m_Graphics->m_Camera->fly(0.1f);
-	//if (GetAsyncKeyState('Z') & 0x8000)
-	//	m_Graphics->m_Camera->pitch(PI / 180);
-	//if (GetAsyncKeyState('X') & 0x8000)
-	//	m_Graphics->m_Camera->yaw(PI / 180);
-	//if (GetAsyncKeyState('C') & 0x8000)
-	//	m_Graphics->m_Camera->roll(PI / 180);
-	//if (GetAsyncKeyState('R') & 0x8000)
-	//	m_Graphics->m_Camera->reCorver();
+	if (GetAsyncKeyState('W') & 0x8000)    //前后 
+		m_Graphics->m_Camera->walk(-0.1f);
+	if (GetAsyncKeyState('S') & 0x8000)
+		m_Graphics->m_Camera->walk(0.1f);
+	if (GetAsyncKeyState('A') & 0x8000)    //左右 
+		m_Graphics->m_Camera->strafe(-0.1f);
+	if (GetAsyncKeyState('D') & 0x8000)
+		m_Graphics->m_Camera->strafe(0.1f);
+	if (GetAsyncKeyState('Q') & 0x8000)    //上下 
+		m_Graphics->m_Camera->fly(-0.1f);
+	if (GetAsyncKeyState('E') & 0x8000)
+		m_Graphics->m_Camera->fly(0.1f);
+	if (GetAsyncKeyState('Z') & 0x8000)
+		m_Graphics->m_Camera->pitch(PI / 180);
+	if (GetAsyncKeyState('X') & 0x8000)
+		m_Graphics->m_Camera->yaw(PI / 180);
+	if (GetAsyncKeyState('C') & 0x8000)
+		m_Graphics->m_Camera->roll(PI / 180);
+	if (GetAsyncKeyState('R') & 0x8000)
+		m_Graphics->m_Camera->reCorver();
 
 	m_Timer->Frame();
 
