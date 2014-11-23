@@ -7,3 +7,4 @@ Dx11 学习用
 ThirdPart 第三方库
 CodeModel 代码模块
 lanuch 发布代码,包含Shader,配置,图片等资源
+现在只能WIN32的Debug能运行

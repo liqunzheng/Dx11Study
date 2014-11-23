@@ -11,6 +11,7 @@
 #include "PlaneModelClass.h"
 #include "LightShaderClass.h"
 #include "LightClass.h"
+#include "D3D11Class.h"
 
 
 /////////////
@@ -30,24 +31,12 @@ public:
 	bool Initialize(int, int, HWND);
 	void Shutdown();
 	bool Frame();
-	CameraClass* m_Camera;
-
 	void pick(int x, int y);
 private:
 	bool Render();
 
 	//定义一个D3DClass类成员变量
-	D3DClass* m_D3D;
-	D2DClass* m_D2D;
-
-	ModelClass* m_Model;
-	AxisModelClass* m_AxisModel;
-	ColorShaderClass* m_ColorShader;
-
-	PlaneModelClass* m_PlaneModel;
-	CubeModelClass* m_CubeModel;
-
-	LightClass* m_Light;
-	LightShaderClass *m_LightShader;
+	CD3D11Class* m_p3dRoot;
+	CameraClass* m_Camera;
 };
 

@@ -13,6 +13,9 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="几何库">
+      <UniqueIdentifier>{fa6b4121-c77e-4712-9d62-62349ffc7c1d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -60,13 +63,16 @@
     <ClCompile Include="D2DClass.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="BoundingSphere.cpp">
-      <Filter>源文件</Filter>
+    <ClCompile Include="Ray.cpp">
+      <Filter>几何库</Filter>
     </ClCompile>
     <ClCompile Include="BoundingBox.cpp">
-      <Filter>源文件</Filter>
+      <Filter>几何库</Filter>
     </ClCompile>
-    <ClCompile Include="Ray.cpp">
+    <ClCompile Include="BoundingSphere.cpp">
+      <Filter>几何库</Filter>
+    </ClCompile>
+    <ClCompile Include="TextureClass.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
@@ -119,13 +125,16 @@
     <ClInclude Include="D2DClass.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="Ray.h">
+      <Filter>几何库</Filter>
+    </ClInclude>
     <ClInclude Include="BoundingSphere.h">
-      <Filter>头文件</Filter>
+      <Filter>几何库</Filter>
     </ClInclude>
     <ClInclude Include="BoundingBox.h">
-      <Filter>头文件</Filter>
+      <Filter>几何库</Filter>
     </ClInclude>
-    <ClInclude Include="Ray.h">
+    <ClInclude Include="TextureClass.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
