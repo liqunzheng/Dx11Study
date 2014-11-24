@@ -4,7 +4,6 @@
 #include "d3dclass.h"
 #include "D2DClass.h"
 #include "cameraclass.h"
-#include "modelclass.h"
 #include "AxisModelClass.h"
 #include "colorshaderclass.h"
 #include "CubeModelClass.h"

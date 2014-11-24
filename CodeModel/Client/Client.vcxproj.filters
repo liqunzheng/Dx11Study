@@ -36,9 +36,6 @@
     <ClCompile Include="InputClass.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="ModelClass.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
     <ClCompile Include="CameraClass.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
@@ -72,9 +69,6 @@
     <ClCompile Include="BoundingSphere.cpp">
       <Filter>几何库</Filter>
     </ClCompile>
-    <ClCompile Include="TextureClass.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SystemClass.h">
@@ -90,9 +84,6 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="InputClass.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="ModelClass.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="CameraClass.h">
@@ -133,9 +124,6 @@
     </ClInclude>
     <ClInclude Include="BoundingBox.h">
       <Filter>几何库</Filter>
-    </ClInclude>
-    <ClInclude Include="TextureClass.h">
-      <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
