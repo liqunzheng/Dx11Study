@@ -112,26 +112,6 @@ void CLineShape::Shutdown()
 
 bool CLineShape::BindRender(CD3D11Class* p3DRoot)
 {
-	D3DXMATRIX mxInvView, mxInvProj;
-	float fDet;
-	D3DXMatrixInverse(&mxInvView, &fDet, &p3DRoot->getViewMatrix());
-	D3DXMatrixInverse(&mxInvProj, &fDet, &p3DRoot->GetProjectionMatrix());
-
-	D3DXVECTOR3 v;
-	v.x = -0.5;
-	v.y = -0.5;
-	v.z = 0.0;
-	D3DXVECTOR3 v1;
-	D3DXVec3TransformCoord(&v1, &v, &mxInvProj);
-	D3DXVec3TransformCoord(&v, &v1, &mxInvView);
-
-	D3DXVECTOR3 vOld = { 0.0f, 0.0f, 0.0f };
-	D3DXVECTOR3 vMove = v - vOld;
-	D3DXMatrixIdentity(&m_mxWorld);
-	m_mxWorld._41 = vMove.x;
-	m_mxWorld._42 = vMove.y;
-	m_mxWorld._43 = vMove.z;
-
 	UINT stride = sizeof(VertexType);
 	UINT offset = 0;
 

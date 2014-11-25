@@ -6,6 +6,7 @@
 #include "IShader.h"
 #include "MtlShape.h"
 #include "LineShape.h"
+#include "AxisShape.h"
 
 
 CShapeManager::CShapeManager()
@@ -23,6 +24,10 @@ void CShapeManager::Initialize(const std::wstring& strFileName, CD3D11Class* pD3
 	CMtlShape *pModel = new CMtlShape();
 	pModel->Initialize(pD3DRoot);
 	m_models.push_back(pModel);
+
+	CAxisShape *pAxis = new CAxisShape();
+	pAxis->Initialize(pD3DRoot);
+	m_models.push_back(pAxis);
 
 	CLineShape *pLine = new CLineShape();
 	pLine->Initialize(pD3DRoot);

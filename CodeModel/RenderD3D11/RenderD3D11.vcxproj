@@ -86,6 +86,7 @@
   <ItemGroup>
     <ClInclude Include="..\ModuleHeader\RenderD3D11\D3D11Class.h" />
     <ClInclude Include="..\ModuleHeader\RenderD3D11\RenderExport.h" />
+    <ClInclude Include="AxisShape.h" />
     <ClInclude Include="ColorShader.h" />
     <ClInclude Include="LineShape.h" />
     <ClInclude Include="MtlShader.h" />
@@ -99,6 +100,7 @@
     <ClInclude Include="TextureManager.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="AxisShape.cpp" />
     <ClCompile Include="ColorShader.cpp" />
     <ClCompile Include="LineShape.cpp" />
     <ClCompile Include="MtlShader.cpp" />

@@ -28,7 +28,7 @@ public:
 
 	virtual UINT GetIndexCount() const;
 
-private:
+protected:
 	std::vector<VertexType> m_vertices;
 	std::vector<int>		m_indices;
 	D3DXMATRIX				m_mxWorld;
