@@ -19,6 +19,9 @@ public:
 	void Render();
 	void EndScene();
 
+	void TurnZBufferOn();
+	void TrueZBufferOff();
+
 	ID3D11Device*			GetDevice();
 	ID3D11DeviceContext*	GetDeviceContext();
 	const std::wstring&		GetVideoCardInfo(int& memory) const;
@@ -41,7 +44,8 @@ private:
 	ID3D11DeviceContext*		m_deviceContext; //设备上下文对象
 	ID3D11RenderTargetView*		m_renderTargetView; //渲染目标视图
 	ID3D11Texture2D*			m_depthStencilBuffer;
-	ID3D11DepthStencilState*	m_depthStencilState;
+	ID3D11DepthStencilState*	m_depthStencilState; //深度测试开启状态
+	ID3D11DepthStencilState*    m_depthDisabledStencilState; //深度测试关闭状态
 	ID3D11DepthStencilView*		m_depthStencilView; //深度目标视图
 	ID3D11RasterizerState*		m_rasterState; //渲染状态
 

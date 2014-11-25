@@ -3,7 +3,7 @@
 
 CameraClass::CameraClass(void)
 	{
-	_cameraType = LANDOBJECT;
+	_cameraType = AIRCRAFT;
 
 	_pos   = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	_right = D3DXVECTOR3(1.0f, 0.0f, 0.0f);

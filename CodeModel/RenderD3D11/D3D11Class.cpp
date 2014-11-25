@@ -13,6 +13,7 @@ CD3D11Class::CD3D11Class()
 	m_renderTargetView = 0;
 	m_depthStencilBuffer = 0;
 	m_depthStencilState = 0;
+	m_depthDisabledStencilState = 0;
 	m_depthStencilView = 0;
 	m_rasterState = 0;
 
@@ -349,6 +350,32 @@ bool CD3D11Class::Initialize(bool vsync, HWND hwnd, bool fullscreen, float scree
 	// 创建正交投影矩阵，主要用来实施2D渲染.
 	D3DXMatrixOrthoLH(&m_orthoMatrix, (float)screenWidth, (float)screenHeight, screenNear, screenDepth);
 
+
+	// Now create a second depth stencil state which turns off the Z buffer for 2D rendering.  The only difference is 
+	// that DepthEnable is set to false, all other parameters are the same as the other depth stencil state.
+	D3D11_DEPTH_STENCIL_DESC depthDisabledStencilDesc;
+	depthDisabledStencilDesc.DepthEnable = false;
+	depthDisabledStencilDesc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ALL;
+	depthDisabledStencilDesc.DepthFunc = D3D11_COMPARISON_LESS;
+	depthDisabledStencilDesc.StencilEnable = true;
+	depthDisabledStencilDesc.StencilReadMask = 0xFF;
+	depthDisabledStencilDesc.StencilWriteMask = 0xFF;
+	depthDisabledStencilDesc.FrontFace.StencilFailOp = D3D11_STENCIL_OP_KEEP;
+	depthDisabledStencilDesc.FrontFace.StencilDepthFailOp = D3D11_STENCIL_OP_INCR;
+	depthDisabledStencilDesc.FrontFace.StencilPassOp = D3D11_STENCIL_OP_KEEP;
+	depthDisabledStencilDesc.FrontFace.StencilFunc = D3D11_COMPARISON_ALWAYS;
+	depthDisabledStencilDesc.BackFace.StencilFailOp = D3D11_STENCIL_OP_KEEP;
+	depthDisabledStencilDesc.BackFace.StencilDepthFailOp = D3D11_STENCIL_OP_DECR;
+	depthDisabledStencilDesc.BackFace.StencilPassOp = D3D11_STENCIL_OP_KEEP;
+	depthDisabledStencilDesc.BackFace.StencilFunc = D3D11_COMPARISON_ALWAYS;
+
+	// Create the state using the device.
+	result = m_device->CreateDepthStencilState(&depthDisabledStencilDesc, &m_depthDisabledStencilState);
+	if (FAILED(result))
+	{
+		return false;
+	}
+
 	//初始化模型
 	m_shaderMgr = new CShaderManager();
 	m_textureMgr = new CTextureManager();
@@ -396,6 +423,12 @@ void CD3D11Class::Shutdown()
 	{
 		m_depthStencilView->Release();
 		m_depthStencilView = 0;
+	}
+
+	if (m_depthDisabledStencilState)
+	{
+		m_depthDisabledStencilState->Release();
+		m_depthDisabledStencilState = 0;
 	}
 
 	if (m_depthStencilState)
@@ -516,5 +549,30 @@ const GeMatrix& CD3D11Class::getViewMatrix() const
 void CD3D11Class::setViewMatrix(const GeMatrix& mx)
 {
 	m_viewMatrix = mx;
+}
+
+
+//void D3DClass::TurnZBufferOn()
+//{
+//	m_deviceContext->OMSetDepthStencilState(m_depthStencilState, 1);
+//	return;
+//}
+//
+//
+//void D3DClass::TurnZBufferOff()
+//{
+//	m_deviceContext->OMSetDepthStencilState(m_depthDisabledStencilState, 1);
+//	return;
+//}
+
+
+void CD3D11Class::TurnZBufferOn()
+{
+	m_deviceContext->OMSetDepthStencilState(m_depthStencilState, 1);
+}
+
+void CD3D11Class::TrueZBufferOff()
+{
+	m_deviceContext->OMSetDepthStencilState(m_depthDisabledStencilState, 1);
 }
 
