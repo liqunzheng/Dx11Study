@@ -84,6 +84,7 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\ModuleHeader\RenderD3D11\Camera.h" />
     <ClInclude Include="..\ModuleHeader\RenderD3D11\D3D11Class.h" />
     <ClInclude Include="..\ModuleHeader\RenderD3D11\RenderExport.h" />
     <ClInclude Include="AxisShape.h" />
@@ -101,6 +102,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AxisShape.cpp" />
+    <ClCompile Include="Camera.cpp" />
     <ClCompile Include="ColorShader.cpp" />
     <ClCompile Include="LineShape.cpp" />
     <ClCompile Include="MtlShader.cpp" />

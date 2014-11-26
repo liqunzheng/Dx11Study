@@ -1,6 +1,7 @@
 #pragma once
 #include "RenderExport.h"
 #include "AZGeometry.h"
+#include "Camera.h"
 
 class CShaderManager;
 class CTextureManager;
@@ -31,8 +32,8 @@ public:
 	CTextureManager*		getTextureMgr();
 	CShapeManager*			getModelMgr();
 
-	const GeMatrix& getViewMatrix() const;
-	void setViewMatrix(const GeMatrix& mx);
+	GeMatrix getViewMatrix();
+	CCamera* getCamera();
 
 private:
 	bool m_vsync_enabled; //是否启用垂直同步
@@ -52,7 +53,9 @@ private:
 	GeMatrix m_projectionMatrix;//透视投影矩阵
 	GeMatrix m_orthoMatrix;		//正交投影矩阵
 
+	CCamera m_camera; //相机
 	GeMatrix m_viewMatrix; //相机矩阵
+
 
 	CShaderManager* m_shaderMgr;
 	CTextureManager* m_textureMgr;

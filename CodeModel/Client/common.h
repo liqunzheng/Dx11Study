@@ -2,9 +2,6 @@
 
 #include <d3d11.h>
 #include <d3dx10math.h>
-#include "BoundingBox.h"
-#include "BoundingSphere.h"
-#include "Ray.h"
 
 #if defined(DEBUG) || defined(_DEBUG)
 #ifndef D3D_DEBUG_INFO
@@ -55,4 +52,9 @@ const D3DXVECTOR4 BEACH_SAND(1.0f, 0.96f, 0.62f, 1.0f);
 const D3DXVECTOR4 LIGHT_YELLOW_GREEN(0.48f, 0.77f, 0.46f, 1.0f);
 const D3DXVECTOR4 DARK_YELLOW_GREEN(0.1f, 0.48f, 0.19f, 1.0f);
 const D3DXVECTOR4 DARKBROWN(0.45f, 0.39f, 0.34f, 1.0f);
+
+#include <string>
+#include <set>
+#include <vector>
+#include <map>
 

@@ -1,3 +1,4 @@
+#include "common.h"
 #include "SystemClass.h"
 #include "TraceWin.h"
 

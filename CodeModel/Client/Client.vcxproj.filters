@@ -13,9 +13,6 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="几何库">
-      <UniqueIdentifier>{fa6b4121-c77e-4712-9d62-62349ffc7c1d}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -24,60 +21,18 @@
     <ClCompile Include="SystemClass.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="ColorShaderClass.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="D3DClass.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
     <ClCompile Include="GraphicsClass.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="InputClass.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="CameraClass.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
     <ClCompile Include="TimerClass.cpp">
       <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="AxisModelClass.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="CubeModelClass.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="LightClass.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="LightShaderClass.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="PlaneModelClass.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="D2DClass.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="Ray.cpp">
-      <Filter>几何库</Filter>
-    </ClCompile>
-    <ClCompile Include="BoundingBox.cpp">
-      <Filter>几何库</Filter>
-    </ClCompile>
-    <ClCompile Include="BoundingSphere.cpp">
-      <Filter>几何库</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SystemClass.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="ColorShaderClass.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="D3DClass.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="GraphicsClass.h">
@@ -86,44 +41,14 @@
     <ClInclude Include="InputClass.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="CameraClass.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
     <ClInclude Include="TimerClass.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="AxisModelClass.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="common.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="CubeModelClass.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="LightClass.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="LightShaderClass.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="PlaneModelClass.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
     <ClInclude Include="TraceWin.h">
       <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="D2DClass.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="Ray.h">
-      <Filter>几何库</Filter>
-    </ClInclude>
-    <ClInclude Include="BoundingSphere.h">
-      <Filter>几何库</Filter>
-    </ClInclude>
-    <ClInclude Include="BoundingBox.h">
-      <Filter>几何库</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

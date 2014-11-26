@@ -541,30 +541,12 @@ void CD3D11Class::Render()
 	m_shapeMgr->Render(this);
 }
 
-const GeMatrix& CD3D11Class::getViewMatrix() const
+GeMatrix CD3D11Class::getViewMatrix()
 {
-	return m_viewMatrix;
+	GeMatrix mx;
+	m_camera.getViewMatrix(&mx);
+	return mx;
 }
-
-void CD3D11Class::setViewMatrix(const GeMatrix& mx)
-{
-	m_viewMatrix = mx;
-}
-
-
-//void D3DClass::TurnZBufferOn()
-//{
-//	m_deviceContext->OMSetDepthStencilState(m_depthStencilState, 1);
-//	return;
-//}
-//
-//
-//void D3DClass::TurnZBufferOff()
-//{
-//	m_deviceContext->OMSetDepthStencilState(m_depthDisabledStencilState, 1);
-//	return;
-//}
-
 
 void CD3D11Class::TurnZBufferOn()
 {
@@ -574,5 +556,10 @@ void CD3D11Class::TurnZBufferOn()
 void CD3D11Class::TrueZBufferOff()
 {
 	m_deviceContext->OMSetDepthStencilState(m_depthDisabledStencilState, 1);
+}
+
+CCamera* CD3D11Class::getCamera()
+{
+	return &m_camera;
 }
 

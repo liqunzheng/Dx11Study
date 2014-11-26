@@ -1,24 +1,25 @@
 #include "GraphicsClass.h"
+#include "D3D11Class.h"
+#include "Camera.h"
 
-namespace
-{
-	void transform_ray(CRay* ray, D3DXMATRIX* trans_matrix)
-	{
-		// transform the ray's origin, w = 1.
-		D3DXVec3TransformCoord(&ray->m_ptOrigin, &ray->m_ptOrigin, trans_matrix);
-
-		// transform the ray's direction, w = 0.
-		D3DXVec3TransformNormal(&ray->m_ptDirection, &ray->m_ptDirection, trans_matrix);
-
-		// normalize the direction
-		D3DXVec3Normalize(&ray->m_ptDirection, &ray->m_ptDirection);
-	}
-}
+//namespace
+//{
+//	void transform_ray(CRay* ray, D3DXMATRIX* trans_matrix)
+//	{
+//		// transform the ray's origin, w = 1.
+//		D3DXVec3TransformCoord(&ray->m_ptOrigin, &ray->m_ptOrigin, trans_matrix);
+//
+//		// transform the ray's direction, w = 0.
+//		D3DXVec3TransformNormal(&ray->m_ptDirection, &ray->m_ptDirection, trans_matrix);
+//
+//		// normalize the direction
+//		D3DXVec3Normalize(&ray->m_ptDirection, &ray->m_ptDirection);
+//	}
+//}
 
 
 GraphicsClass::GraphicsClass(void)
 {
-	m_Camera = 0;
 	m_p3dRoot = 0;
 }
 
@@ -48,15 +49,10 @@ bool GraphicsClass::Initialize(int screenWidth, int screenHeight, HWND hwnd)
 	}
 
 	//创建摄像机对象
-	m_Camera = new CameraClass;
-	if (!m_Camera)
-	{
-		return false;
-	}
 
 	// 设置摄像机位置.
 	D3DXVECTOR3 campos = D3DXVECTOR3(0.0f, 0.0f, -10.0f);
-	m_Camera->setPosition(&campos);
+	m_p3dRoot->getCamera()->setPosition(&campos);
 	return true;
 }
 
@@ -68,14 +64,6 @@ void GraphicsClass::Shutdown()
 		delete m_p3dRoot;
 		m_p3dRoot = 0;
 	}
-
-	// 释放摄像机对象
-	if (m_Camera)
-	{
-		delete m_Camera;
-		m_Camera = 0;
-	}
-
 	return;
 }
 
@@ -83,8 +71,8 @@ void GraphicsClass::Shutdown()
 bool GraphicsClass::Frame()
 {
 	D3DXMATRIX mxView;
-	m_Camera->getViewMatrix(&mxView);
-	m_p3dRoot->setViewMatrix(mxView);
+	//m_Camera->getViewMatrix(&mxView);
+	//m_p3dRoot->setViewMatrix(mxView);
 	m_p3dRoot->BeginScene(0.0f, 0.0f, 0.5f, 1.0f);
 
 	m_p3dRoot->Render();
@@ -109,4 +97,12 @@ void GraphicsClass::pick(int x, int y)
 	//{
 	//	DPrintf("Insection ...");
 	//}
+}
+
+CCamera* GraphicsClass::getCamera()
+{
+	if (m_p3dRoot != nullptr)
+	{
+		return m_p3dRoot->getCamera();
+	}
 }

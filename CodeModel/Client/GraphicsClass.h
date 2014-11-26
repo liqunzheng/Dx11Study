@@ -1,16 +1,10 @@
 #pragma once
 
 #include <windows.h>
-#include "d3dclass.h"
-#include "D2DClass.h"
-#include "cameraclass.h"
-#include "AxisModelClass.h"
-#include "colorshaderclass.h"
-#include "CubeModelClass.h"
-#include "PlaneModelClass.h"
-#include "LightShaderClass.h"
-#include "LightClass.h"
-#include "D3D11Class.h"
+#include "common.h"
+
+class CD3D11Class;
+class CCamera;
 
 
 /////////////
@@ -33,8 +27,9 @@ public:
 	void pick(int x, int y);
 	bool Render();
 
+	CCamera* getCamera();
+
 	//定义一个D3DClass类成员变量
 	CD3D11Class* m_p3dRoot;
-	CameraClass* m_Camera;
 };
 
