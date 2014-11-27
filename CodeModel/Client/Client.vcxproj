@@ -55,7 +55,7 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>..\..\ThirdPart\DirectX\Include;..\ModuleHeader\RenderD3D11;..\ModuleHeader\Geometry;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\ThirdPart\DirectX\Include;..\ModuleHeader\RenderD3D11;..\ModuleHeader\Geometry;..\ModuleHeader\Common;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DisableSpecificWarnings>4005</DisableSpecificWarnings>
     </ClCompile>
     <Link>
@@ -98,7 +98,6 @@
     <ClInclude Include="InputClass.h" />
     <ClInclude Include="SystemClass.h" />
     <ClInclude Include="TimerClass.h" />
-    <ClInclude Include="TraceWin.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

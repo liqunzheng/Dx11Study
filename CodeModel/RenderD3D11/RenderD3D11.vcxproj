@@ -53,14 +53,14 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;RENDERD3D11_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>..\..\ThirdPart\DirectX\Include;..\ModuleHeader\RenderD3D11;..\ModuleHeader\Geometry;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\ThirdPart\DirectX\Include;..\ModuleHeader\RenderD3D11;..\ModuleHeader\Geometry;..\..\ThirdPart\FreeType2\Include;..\ModuleHeader\Common;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <ImportLibrary>..\ModuleLib\$(TargetName).lib</ImportLibrary>
-      <AdditionalDependencies>dxgi.lib;d3d11.lib;d3dx11.lib;d3dx10.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>..\..\ThirdPart\DirectX\Lib\x86;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>dxgi.lib;d3d11.lib;d3dx11.lib;d3dx10.lib;freetype.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>..\..\ThirdPart\DirectX\Lib\x86;..\..\ThirdPart\FreeType2\Debug\x86;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -89,6 +89,7 @@
     <ClInclude Include="..\ModuleHeader\RenderD3D11\RenderExport.h" />
     <ClInclude Include="AxisShape.h" />
     <ClInclude Include="ColorShader.h" />
+    <ClInclude Include="FontShape.h" />
     <ClInclude Include="LineShape.h" />
     <ClInclude Include="MtlShader.h" />
     <ClInclude Include="IShape.h" />
@@ -104,6 +105,7 @@
     <ClCompile Include="AxisShape.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="ColorShader.cpp" />
+    <ClCompile Include="FontShape.cpp" />
     <ClCompile Include="LineShape.cpp" />
     <ClCompile Include="MtlShader.cpp" />
     <ClCompile Include="D3D11Class.cpp" />

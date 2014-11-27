@@ -7,10 +7,13 @@
 #include "MtlShape.h"
 #include "LineShape.h"
 #include "AxisShape.h"
+#include "FontShape.h"
 
 
 CShapeManager::CShapeManager()
 {
+	CFontShape shpae;
+	shpae.DrawAUnicode(L'\\');
 }
 
 
