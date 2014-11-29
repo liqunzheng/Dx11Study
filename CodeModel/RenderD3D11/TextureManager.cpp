@@ -42,3 +42,8 @@ void CTextureManager::Shutdown()
 
 	m_mapTexture.clear();
 }
+
+void CTextureManager::add(const std::wstring& strMtlName, ID3D11ShaderResourceView* pTexture)
+{
+	m_mapTexture.insert(std::make_pair(strMtlName, pTexture));
+}

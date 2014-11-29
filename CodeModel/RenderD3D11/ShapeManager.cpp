@@ -8,12 +8,13 @@
 #include "LineShape.h"
 #include "AxisShape.h"
 #include "FontShape.h"
+#include "MtlShape2D.h"
 
 
 CShapeManager::CShapeManager()
 {
-	CFontShape shpae;
-	shpae.DrawAUnicode(L'\\');
+	//CFontShape shpae;
+	//shpae.DrawAUnicode(L'\\');
 }
 
 
@@ -24,6 +25,10 @@ CShapeManager::~CShapeManager()
 
 void CShapeManager::Initialize(const std::wstring& strFileName, CD3D11Class* pD3DRoot)
 {
+	CFontShape shape;
+	shape.Initialize(pD3DRoot);
+	shape.DrawAUnicode(L'ÎÒ');
+		;
 	CMtlShape *pModel = new CMtlShape();
 	pModel->Initialize(pD3DRoot);
 	m_models.push_back(pModel);
@@ -35,6 +40,10 @@ void CShapeManager::Initialize(const std::wstring& strFileName, CD3D11Class* pD3
 	CLineShape *pLine = new CLineShape();
 	pLine->Initialize(pD3DRoot);
 	m_models.push_back(pLine);
+
+	CMtlShape2D *p2d = new CMtlShape2D();
+	p2d->Initialize(pD3DRoot);
+	m_models.push_back(p2d);
 }
 
 void CShapeManager::Shutdown()

@@ -105,4 +105,6 @@ CCamera* GraphicsClass::getCamera()
 	{
 		return m_p3dRoot->getCamera();
 	}
+	else
+		return nullptr;
 }

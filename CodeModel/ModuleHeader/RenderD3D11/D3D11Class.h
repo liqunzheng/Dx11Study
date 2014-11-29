@@ -35,6 +35,11 @@ public:
 	GeMatrix getViewMatrix();
 	CCamera* getCamera();
 
+	void TurnOnAlphaBlending();
+	void TurnOffAlphaBlending();
+
+	void getViewSize(int& iWidth, int& iHeight);
+
 private:
 	bool m_vsync_enabled; //是否启用垂直同步
 	int	 m_videoCardMemory; //显存大小
@@ -60,5 +65,9 @@ private:
 	CShaderManager* m_shaderMgr;
 	CTextureManager* m_textureMgr;
 	CShapeManager* m_shapeMgr;
+
+	ID3D11BlendState* m_alphaEnableBlendingState;
+	ID3D11BlendState* m_alphaDisableBlendingState;
+
 };
 

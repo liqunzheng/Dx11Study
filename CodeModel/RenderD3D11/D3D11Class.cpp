@@ -20,6 +20,9 @@ CD3D11Class::CD3D11Class()
 	m_shaderMgr = 0;
 	m_textureMgr = 0;
 	m_shapeMgr = 0;
+
+	m_alphaEnableBlendingState = 0;
+	m_alphaDisableBlendingState = 0;
 }
 
 
@@ -376,6 +379,37 @@ bool CD3D11Class::Initialize(bool vsync, HWND hwnd, bool fullscreen, float scree
 		return false;
 	}
 
+	// 初始化blend描述符
+	D3D11_BLEND_DESC blendStateDescription;
+	ZeroMemory(&blendStateDescription, sizeof(D3D11_BLEND_DESC));
+
+	// 创建一个alpha blend状态.
+	blendStateDescription.RenderTarget[0].BlendEnable = TRUE;
+	//blendStateDescription.RenderTarget[0].SrcBlend = D3D11_BLEND_ONE;
+	blendStateDescription.RenderTarget[0].SrcBlend = D3D11_BLEND_SRC_ALPHA;
+	blendStateDescription.RenderTarget[0].DestBlend = D3D11_BLEND_INV_SRC_ALPHA;
+	blendStateDescription.RenderTarget[0].BlendOp = D3D11_BLEND_OP_ADD;
+	blendStateDescription.RenderTarget[0].SrcBlendAlpha = D3D11_BLEND_ONE;
+	blendStateDescription.RenderTarget[0].DestBlendAlpha = D3D11_BLEND_ZERO;
+	blendStateDescription.RenderTarget[0].BlendOpAlpha = D3D11_BLEND_OP_ADD;
+	blendStateDescription.RenderTarget[0].RenderTargetWriteMask = D3D11_COLOR_WRITE_ENABLE_ALL;//0x0f;
+
+	// 用描述符创建一个alpha blend状态
+	result = m_device->CreateBlendState(&blendStateDescription, &m_alphaEnableBlendingState);
+	if (FAILED(result))
+	{
+		return false;
+	}
+
+	//修改描述符.
+	blendStateDescription.RenderTarget[0].BlendEnable = FALSE;
+	//创建一个新的blend状态.
+	result = m_device->CreateBlendState(&blendStateDescription, &m_alphaDisableBlendingState);
+	if (FAILED(result))
+	{
+		return false;
+	}
+
 	//初始化模型
 	m_shaderMgr = new CShaderManager();
 	m_textureMgr = new CTextureManager();
@@ -387,6 +421,18 @@ bool CD3D11Class::Initialize(bool vsync, HWND hwnd, bool fullscreen, float scree
 
 void CD3D11Class::Shutdown()
 {
+	if (m_alphaEnableBlendingState)
+	{
+		m_alphaEnableBlendingState->Release();
+		m_alphaEnableBlendingState = 0;
+	}
+
+	if (m_alphaDisableBlendingState)
+	{
+		m_alphaDisableBlendingState->Release();
+		m_alphaDisableBlendingState = 0;
+	}
+
 	if (m_shaderMgr)
 	{
 		m_shaderMgr->Shutdown();
@@ -561,5 +607,42 @@ void CD3D11Class::TrueZBufferOff()
 CCamera* CD3D11Class::getCamera()
 {
 	return &m_camera;
+}
+
+void CD3D11Class::TurnOnAlphaBlending()
+{
+	float blendFactor[4];
+
+	// 设置blend因子
+	blendFactor[0] = 0.0f;
+	blendFactor[1] = 0.0f;
+	blendFactor[2] = 0.0f;
+	blendFactor[3] = 0.0f;
+
+	// 打开alpha blend
+	m_deviceContext->OMSetBlendState(m_alphaEnableBlendingState, blendFactor, 0xffffffff);
+}
+
+void CD3D11Class::TurnOffAlphaBlending()
+{
+	float blendFactor[4];
+
+	// 设置blend因子
+	blendFactor[0] = 0.0f;
+	blendFactor[1] = 0.0f;
+	blendFactor[2] = 0.0f;
+	blendFactor[3] = 0.0f;
+
+	// 关闭alpha blend
+	m_deviceContext->OMSetBlendState(m_alphaDisableBlendingState, blendFactor, 0xffffffff);
+}
+
+void CD3D11Class::getViewSize(int& iWidth, int& iHeight)
+{
+	D3D11_VIEWPORT viewport;
+	UINT uNum = 1;
+	m_deviceContext->RSGetViewports(&uNum, &viewport);
+	iWidth = viewport.Width;
+	iHeight = viewport.Height;
 }
 

@@ -145,8 +145,8 @@ bool CMtlShader::Initialize(CD3D11Class* p3DRoot)
 	// 创建纹理采样描述符
 	D3D11_SAMPLER_DESC samplerDesc;
 	samplerDesc.Filter = D3D11_FILTER_MIN_MAG_MIP_POINT;
-	samplerDesc.AddressU = D3D11_TEXTURE_ADDRESS_MIRROR_ONCE;
-	samplerDesc.AddressV = D3D11_TEXTURE_ADDRESS_MIRROR_ONCE;
+	samplerDesc.AddressU = D3D11_TEXTURE_ADDRESS_WRAP;
+	samplerDesc.AddressV = D3D11_TEXTURE_ADDRESS_WRAP;
 	samplerDesc.AddressW = D3D11_TEXTURE_ADDRESS_WRAP;
 	samplerDesc.MipLODBias = 0.0f;
 	samplerDesc.MaxAnisotropy = 1;
