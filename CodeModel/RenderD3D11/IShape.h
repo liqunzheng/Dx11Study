@@ -1,4 +1,5 @@
 #pragma once
+#include "Vertex.h"
 
 class CD3D11Class;
 

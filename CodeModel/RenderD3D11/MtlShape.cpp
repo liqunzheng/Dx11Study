@@ -18,9 +18,7 @@ CMtlShape::~CMtlShape()
 bool CMtlShape::Initialize(CD3D11Class* p3DRoot)
 {
 	m_strShaderName = L"CMtlShader";
-	//m_strMtlName = L"tong.dds";
-	//m_strMtlName = L"WireFence.dds";
-	m_strMtlName = L"Font";
+	m_strMtlName = L"tong.dds";
 	D3DXMatrixIdentity(&m_mxWorld);
 
 	m_indices.resize(6);
@@ -47,12 +45,10 @@ bool CMtlShape::Initialize(CD3D11Class* p3DRoot)
 	m_vertices[5].texture = D3DXVECTOR2(1.0f, 1.0f);
 
 	// 设置索引缓冲数据.
-	// 设置索引缓冲数据.
 	for (size_t i = 0; i < m_indices.size(); i++)
 	{
 		m_indices[i] = i;
 	}
-
 
 	// 设置顶点缓冲描述
 	D3D11_BUFFER_DESC vertexBufferDesc;

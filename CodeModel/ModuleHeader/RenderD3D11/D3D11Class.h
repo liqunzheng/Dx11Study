@@ -6,6 +6,7 @@
 class CShaderManager;
 class CTextureManager;
 class CShapeManager;
+class CFontTextureManager;
 
 class RENDERD3D11_API CD3D11Class
 {
@@ -31,6 +32,7 @@ public:
 	CShaderManager*			getShaderMgr();
 	CTextureManager*		getTextureMgr();
 	CShapeManager*			getModelMgr();
+	CFontTextureManager*	getFontMgr();
 
 	GeMatrix getViewMatrix();
 	CCamera* getCamera();
@@ -65,6 +67,7 @@ private:
 	CShaderManager* m_shaderMgr;
 	CTextureManager* m_textureMgr;
 	CShapeManager* m_shapeMgr;
+	CFontTextureManager *m_fontTexMgr;
 
 	ID3D11BlendState* m_alphaEnableBlendingState;
 	ID3D11BlendState* m_alphaDisableBlendingState;

@@ -1,6 +1,10 @@
+//*******************************************************************************
+// 功能：绘制文字
+// ---------------
+// 作者：李群政
+// 时间：2014年11月30日
+//*******************************************************************************
 #pragma once
-#include "ft2build.h" 
-#include FT_FREETYPE_H
 #include "IShape.h"
 
 class CFontShape : public IShape
@@ -23,21 +27,16 @@ public:
 
 	virtual UINT GetIndexCount() const override;
 
-	bool DrawAUnicode(wchar_t ch);
-
 protected:
-	void initFreetype2();
-	void shutdownFreetype2();
+	std::vector<pt_xyz_c_uv> m_vertices;
+	CIndexArray m_indices;
 
-	class CTextureManager* m_ptexturmanager;
+	D3DXMATRIX				m_mxWorld;
 
-	ID3D11Device *m_pDevice;
-	ID3D11Texture2D *m_pTexture;
-	ID3D11ShaderResourceView *m_shaderResourceView;
+	//顶点缓冲
+	ID3D11Buffer *m_vertexBuffer;
+	//索引缓冲
+	ID3D11Buffer *m_indexBuffer;
 
-	std::wstring m_strFontFile;
-	FT_Library m_ftLibrary;
-	int m_ftSize;
-	FT_Face m_ftFace;
 };
 

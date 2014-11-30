@@ -18,9 +18,9 @@ CMtlShape2D::~CMtlShape2D()
 bool CMtlShape2D::Initialize(CD3D11Class* p3DRoot)
 {
 	m_strShaderName = L"CMtlShader";
-	m_strMtlName = L"tong.dds";
+	//m_strMtlName = L"WireFence.dds";
+	m_strMtlName = L"uFont";
 	D3DXMatrixIdentity(&m_mxWorld);
-
 	m_indices.resize(6);
 	m_vertices.resize(4);
 
@@ -171,3 +171,4 @@ UINT CMtlShape2D::GetIndexCount() const
 {
 	return m_indices.size();
 }
+

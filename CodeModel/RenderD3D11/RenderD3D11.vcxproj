@@ -89,6 +89,8 @@
     <ClInclude Include="..\ModuleHeader\RenderD3D11\RenderExport.h" />
     <ClInclude Include="AxisShape.h" />
     <ClInclude Include="ColorShader.h" />
+    <ClInclude Include="FontTextureManager.h" />
+    <ClInclude Include="FontShader.h" />
     <ClInclude Include="FontShape.h" />
     <ClInclude Include="LineShape.h" />
     <ClInclude Include="MtlShader.h" />
@@ -101,11 +103,14 @@
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="TextureManager.h" />
+    <ClInclude Include="Vertex.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AxisShape.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="ColorShader.cpp" />
+    <ClCompile Include="FontTextureManager.cpp" />
+    <ClCompile Include="FontShader.cpp" />
     <ClCompile Include="FontShape.cpp" />
     <ClCompile Include="LineShape.cpp" />
     <ClCompile Include="MtlShader.cpp" />
@@ -127,6 +132,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="TextureManager.cpp" />
+    <ClCompile Include="Vertex.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

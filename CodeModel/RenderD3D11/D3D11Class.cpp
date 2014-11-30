@@ -3,6 +3,7 @@
 #include "ShaderManager.h"
 #include "TextureManager.h"
 #include "ShapeManager.h"
+#include "FontTextureManager.h"
 
 
 CD3D11Class::CD3D11Class()
@@ -17,9 +18,11 @@ CD3D11Class::CD3D11Class()
 	m_depthStencilView = 0;
 	m_rasterState = 0;
 
-	m_shaderMgr = 0;
-	m_textureMgr = 0;
-	m_shapeMgr = 0;
+
+	m_shaderMgr = new CShaderManager();
+	m_textureMgr = new CTextureManager();
+	m_shapeMgr = new CShapeManager();
+	m_fontTexMgr = new CFontTextureManager();
 
 	m_alphaEnableBlendingState = 0;
 	m_alphaDisableBlendingState = 0;
@@ -411,9 +414,7 @@ bool CD3D11Class::Initialize(bool vsync, HWND hwnd, bool fullscreen, float scree
 	}
 
 	//初始化模型
-	m_shaderMgr = new CShaderManager();
-	m_textureMgr = new CTextureManager();
-	m_shapeMgr = new CShapeManager();
+	m_fontTexMgr->Initialize(this);
 	m_shapeMgr->Initialize(L"", this);
 
 	return true;
@@ -452,6 +453,13 @@ void CD3D11Class::Shutdown()
 		m_shapeMgr->Shutdown();
 		delete m_shapeMgr;
 		m_shapeMgr = 0;
+	}
+
+	if (m_fontTexMgr)
+	{
+		m_fontTexMgr->Shutdown();
+		delete m_fontTexMgr;
+		m_fontTexMgr = nullptr;
 	}
 
 	if (m_swapChain)
@@ -644,5 +652,10 @@ void CD3D11Class::getViewSize(int& iWidth, int& iHeight)
 	m_deviceContext->RSGetViewports(&uNum, &viewport);
 	iWidth = viewport.Width;
 	iHeight = viewport.Height;
+}
+
+CFontTextureManager* CD3D11Class::getFontMgr()
+{
+	return m_fontTexMgr;
 }
 

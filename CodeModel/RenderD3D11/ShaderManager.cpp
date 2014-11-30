@@ -2,6 +2,7 @@
 #include "ShaderManager.h"
 #include "MtlShader.h"
 #include "ColorShader.h"
+#include "FontShader.h"
 
 
 CShaderManager::CShaderManager()
@@ -52,6 +53,11 @@ IShader* CShaderManager::createShader(const std::wstring& strShaderName, CD3D11C
 	if (strShaderName.compare(L"CColorShader") == 0)
 	{
 		pShader = new CColorShader();
+		pShader->Initialize(pD3DRoot);
+	}
+	if (strShaderName.compare(L"CFontShader") == 0)
+	{
+		pShader = new CFontShader();
 		pShader->Initialize(pD3DRoot);
 	}
 	return pShader;
