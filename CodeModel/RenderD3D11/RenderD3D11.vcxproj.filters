@@ -78,6 +78,9 @@
     <ClInclude Include="FontTextureManager.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="MtlShader2D.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -129,6 +132,9 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="FontTextureManager.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="MtlShader2D.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

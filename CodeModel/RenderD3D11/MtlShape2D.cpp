@@ -17,15 +17,23 @@ CMtlShape2D::~CMtlShape2D()
 
 bool CMtlShape2D::Initialize(CD3D11Class* p3DRoot)
 {
-	m_strShaderName = L"CMtlShader";
-	//m_strMtlName = L"WireFence.dds";
-	m_strMtlName = L"uFont";
+	m_strShaderName = L"CMtlShader2D";
+	m_strMtlName = L"WireFence.dds";
 	D3DXMatrixIdentity(&m_mxWorld);
 	m_indices.resize(6);
 	m_vertices.resize(4);
 
-	//创建顺时针方向的三角形，左手规则
-	// 设置顶点数据.
+	int nWidth = 0;
+	int nHeight = 0;
+	p3DRoot->getViewSize(nWidth, nHeight);
+
+	//计算正交投影矩阵
+	D3DXMatrixIdentity(&m_mxWorld);
+	m_mxWorld._11 = 2.0f / nWidth;
+	m_mxWorld._22 = 2.0f / nHeight;
+	m_mxWorld._41 = -1.0f;
+	m_mxWorld._42 = -1.0f;
+
 	m_vertices[0].position = D3DXVECTOR3(0.0f, 0.0f, 0.01f);
 	m_vertices[0].texture = D3DXVECTOR2(0.0f, 1.0f);
 
@@ -37,6 +45,11 @@ bool CMtlShape2D::Initialize(CD3D11Class* p3DRoot)
 
 	m_vertices[3].position = D3DXVECTOR3(512.0f, 0.0f, 0.01f);
 	m_vertices[3].texture = D3DXVECTOR2(1.0f, 1.0f);
+
+	for (size_t i = 0; i < m_vertices.size(); ++i)
+	{
+		D3DXVec3TransformCoord(&m_vertices[i].position, &m_vertices[i].position, &m_mxWorld);
+	}
 
 	// 设置索引缓冲数据.
 	m_indices[0] = 1;
@@ -111,31 +124,6 @@ void CMtlShape2D::Shutdown()
 
 bool CMtlShape2D::BindRender(CD3D11Class* p3DRoot)
 {
-	int nWidth = 0;
-	int nHeight = 0;
-
-	p3DRoot->getViewSize(nWidth, nHeight);
-	float fWidth = nWidth * 0.5f;
-	float fHeight = nHeight*0.5f;
-	D3DXMatrixIdentity(&m_mxWorld);
-
- 	m_mxWorld._41 = -fWidth;
-	m_mxWorld._42 = -fHeight;
-
-	D3DXMATRIX mxScale;
-	D3DXMatrixIdentity(&mxScale);
-	mxScale._11 = 1.0f / fWidth;
-	mxScale._22 = 1.0f / fHeight;
-	D3DXMatrixMultiply(&m_mxWorld, &m_mxWorld, &mxScale);
-
-	D3DXMATRIX mxInvView, mxInvProj;
-	float fDet;
-	D3DXMatrixInverse(&mxInvView, &fDet, &p3DRoot->getViewMatrix());
-	D3DXMatrixInverse(&mxInvProj, &fDet, &p3DRoot->GetProjectionMatrix());
-
-	D3DXMatrixMultiply(&m_mxWorld, &m_mxWorld, &mxInvProj);
-	D3DXMatrixMultiply(&m_mxWorld, &m_mxWorld, &mxInvView);
-
 	// 设置顶点缓冲跨度和偏移.
 	UINT stride = sizeof(VertexType);
 	UINT offset = 0;

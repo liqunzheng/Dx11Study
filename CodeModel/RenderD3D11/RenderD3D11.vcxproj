@@ -96,6 +96,7 @@
     <ClInclude Include="MtlShader.h" />
     <ClInclude Include="IShape.h" />
     <ClInclude Include="IShader.h" />
+    <ClInclude Include="MtlShader2D.h" />
     <ClInclude Include="MtlShape2D.h" />
     <ClInclude Include="ShapeManager.h" />
     <ClInclude Include="MtlShape.h" />
@@ -123,6 +124,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
       </PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="MtlShader2D.cpp" />
     <ClCompile Include="MtlShape2D.cpp" />
     <ClCompile Include="ShapeManager.cpp" />
     <ClCompile Include="MtlShape.cpp" />
