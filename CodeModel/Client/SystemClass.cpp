@@ -5,9 +5,9 @@
 
 SystemClass::SystemClass(void)
 {
-	m_Input = 0;
 	m_Graphics = 0;
 	m_Timer = 0;
+	m_wheelStatus = eWheelNull;
 }
 
 SystemClass::SystemClass(const SystemClass &)
@@ -27,16 +27,6 @@ bool SystemClass::Initialize()
 
 	// 初始化窗口
 	InitializeWindows(screenWidth, screenHeight);
-
-	//创建input对象处理键盘输入
-	m_Input = new InputClass;
-	if (!m_Input)
-	{
-		return false;
-	}
-
-	// 初始化输入对象.
-	m_Input->Initialize();
 
 	// 创建图形对象，这个对象将渲染应用程序中的所有物体
 	m_Graphics = new GraphicsClass;
@@ -79,11 +69,6 @@ void SystemClass::Shutdown()
 		m_Graphics = 0;
 	}
 
-	if (m_Input)
-	{
-		delete m_Input;
-		m_Input = 0;
-	}
 	// 执行一些销毁工作.
 	ShutdownWindows();
 }
@@ -133,24 +118,16 @@ bool SystemClass::Frame()
 	bool result;
 
 	//检测用户是否按下ESC键，如果按下，退出程序.
-	if (m_Input->IsKeyDown(VK_ESCAPE))
-	{
+	if (GetAsyncKeyState(VK_ESCAPE))
 		return false;
-	}
-
-	//如果A,S,D,W,Q,E,Z,X,C键按下，移动摄像机 
-	if (GetAsyncKeyState('W') & 0x8000)    //前后 
-		m_Graphics->getCamera()->walk(-0.1f);
-	if (GetAsyncKeyState('S') & 0x8000)
-		m_Graphics->getCamera()->walk(0.1f);
-	if (GetAsyncKeyState('A') & 0x8000)    //左右 
-		m_Graphics->getCamera()->strafe(-0.1f);
-	if (GetAsyncKeyState('D') & 0x8000)
-		m_Graphics->getCamera()->strafe(0.1f);
-	if (GetAsyncKeyState('Q') & 0x8000)    //上下 
+	if (GetAsyncKeyState('W') & 0x8000)    //上下
 		m_Graphics->getCamera()->fly(-0.1f);
-	if (GetAsyncKeyState('E') & 0x8000)
+	if (GetAsyncKeyState('S') & 0x8000)
 		m_Graphics->getCamera()->fly(0.1f);
+	if (GetAsyncKeyState('A') & 0x8000)    //左右 
+		m_Graphics->getCamera()->strafe(0.1f);
+	if (GetAsyncKeyState('D') & 0x8000)
+		m_Graphics->getCamera()->strafe(-0.1f);
 	if (GetAsyncKeyState('Z') & 0x8000)
 		m_Graphics->getCamera()->pitch(PI / 180);
 	if (GetAsyncKeyState('X') & 0x8000)
@@ -159,6 +136,17 @@ bool SystemClass::Frame()
 		m_Graphics->getCamera()->roll(PI / 180);
 	if (GetAsyncKeyState('R') & 0x8000)
 		m_Graphics->getCamera()->reCorver();
+
+	//鼠标滚轮控制前后
+	if (m_wheelStatus == eWheelBack)
+	{
+		m_Graphics->getCamera()->walk(0.5f);
+	}
+	else if (m_wheelStatus == eWheelFront)
+	{
+		m_Graphics->getCamera()->walk(-0.5f);
+	}
+	m_wheelStatus = eWheelNull;
 
 	m_Timer->Frame();
 
@@ -322,14 +310,14 @@ LRESULT CALLBACK SystemClass::MessageHandler(HWND hwnd, UINT umsg, WPARAM wparam
 		}
 		return 0;
 
-	// 检测按键消息.
-	case WM_KEYDOWN:
-		m_Input->KeyDown((unsigned int)wparam);
-		return 0;
+	//// 检测按键消息.
+	//case WM_KEYDOWN:
+	//	m_Input->KeyDown((unsigned int)wparam);
+	//	return 0;
 
-	case WM_KEYUP:
-		m_Input->KeyUp((unsigned int)wparam);
-		return 0;
+	//case WM_KEYUP:
+	//	m_Input->KeyUp((unsigned int)wparam);
+	//	return 0;
 
 	//任何其它消息发送到windows缺省处理.
 	case WM_SIZE:
@@ -355,6 +343,17 @@ LRESULT CALLBACK SystemClass::MessageHandler(HWND hwnd, UINT umsg, WPARAM wparam
 						}
 					}
 					return 0;
+	}
+	case WM_MOUSEWHEEL:
+	{
+						  if ((INT)wparam > 0)
+						  {
+							  m_wheelStatus = eWheelFront; //缩小
+						  }
+						  else
+						  {
+							  m_wheelStatus = eWheelBack; //放大
+						  }
 	}
 	default:
 		return DefWindowProc(hwnd, umsg, wparam, lparam);

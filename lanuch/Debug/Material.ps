@@ -24,9 +24,6 @@ float4 ColorPixelShader(PixelInputType input) : SV_TARGET
     float4 textureColor;
     // 用采样函数从纹理得到像素颜色.
     textureColor = shaderTexture.Sample(SampleType, input.tex);
-	clip(textureColor.a - 0.01f);
-	//textureColor.r = 1.0f;
-	//textureColor.g = 0.0f;
-	//textureColor.b = 0.0f;
+	clip(textureColor.a - 0.0000001f);
 	return textureColor;
 }

@@ -4,11 +4,10 @@
 
 #include <windows.h>
 #include "common.h"
-#include "InputClass.h"
 #include "GraphicsClass.h"
 #include "TimerClass.h"
 
-const float PI     = 3.14159265358979323f;
+const float PI = 3.14159265358979323f;
 
 class SystemClass
 	{
@@ -32,13 +31,21 @@ class SystemClass
 		HWND m_hwnd;
 
 		//InputClass和GraphicsClass是SystemClass的两个成员变量
-		InputClass* m_Input;
 		GraphicsClass* m_Graphics;
 		//计时器
 		TimerClass *m_Timer;
 
 		//按下鼠标左键时,记录鼠标当前的位
 		POINT m_OldMousePos;
+
+		//鼠标滚轮状态
+		enum E_WheelStatus
+		{
+			eWheelNull = 0,		//空
+			eWheelFront = 1,	//前
+			eWheelBack = 2		//后
+		};
+		E_WheelStatus m_wheelStatus;
 	};
 
 //定义静态的回调函数以及应用程序句柄
