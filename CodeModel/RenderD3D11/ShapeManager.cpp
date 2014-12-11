@@ -63,12 +63,14 @@ void CShapeManager::Render(CD3D11Class* pD3DRoot)
 		IShape* pModel = m_models[i];
 		pModel->BindRender(pD3DRoot);
 
-		ID3D11ShaderResourceView* pTexture = pD3DRoot->getTextureMgr()->GetTexture(pModel->GetMtlName(), pD3DRoot);
 		IShader* pShader = pD3DRoot->getShaderMgr()->getShader(pModel->GetShaderName(), pD3DRoot);
 		D3DXMATRIX mxView = pD3DRoot->getViewMatrix();
 		D3DXMATRIX mxProject = pD3DRoot->GetProjectionMatrix();
 		pShader->SetMatrix(pD3DRoot, pModel->GetWorldMatrix(), mxView, mxProject);
+
+		ID3D11ShaderResourceView* pTexture = pD3DRoot->getTextureMgr()->GetTexture(pModel->GetMtlName(), pD3DRoot);
 		pShader->SetShaderResource(pD3DRoot, pTexture);
+
 		pShader->Render(pD3DRoot, pModel->GetIndexCount());
 	}
 }

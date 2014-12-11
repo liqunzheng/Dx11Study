@@ -71,6 +71,5 @@ private:
 
 	ID3D11BlendState* m_alphaEnableBlendingState;
 	ID3D11BlendState* m_alphaDisableBlendingState;
-
 };
 

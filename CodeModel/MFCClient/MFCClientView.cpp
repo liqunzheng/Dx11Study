@@ -22,6 +22,7 @@
 #include "MFCClientDoc.h"
 #include "MFCClientView.h"
 #include "D3DManager.h"
+#include "Camera.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -37,6 +38,7 @@ BEGIN_MESSAGE_MAP(CMFCClientView, CView)
 	ON_WM_RBUTTONUP()
 	ON_WM_SIZE()
 	ON_WM_ERASEBKGND()
+	ON_WM_CHAR()
 END_MESSAGE_MAP()
 
 // CMFCClientView 构造/析构
@@ -122,11 +124,54 @@ void CMFCClientView::OnSize(UINT nType, int cx, int cy)
 {
 	CView::OnSize(nType, cx, cy);
 
-	// TODO:  在此处添加消息处理程序代码
+	// 窗口大小改变时,重新初始化引擎
+	CD3DManager::Instance()->InitEnger(m_hWnd);
 }
 
 
 BOOL CMFCClientView::OnEraseBkgnd(CDC* pDC)
 {
 	return FALSE;
+}
+
+
+void CMFCClientView::OnChar(UINT nChar, UINT nRepCnt, UINT nFlags)
+{
+	// TODO:  在此添加消息处理程序代码和/或调用默认值
+	CView::OnChar(nChar, nRepCnt, nFlags);
+	switch (nChar)
+	{
+	case 'W':case 'w':
+	CD3DManager::Instance()->getCamera()->fly(-0.1f);
+	break;
+	case 'S':case 's':
+	CD3DManager::Instance()->getCamera()->fly(0.1f);
+	break;
+	case 'A':case 'a':
+	CD3DManager::Instance()->getCamera()->strafe(0.1f);
+	break;
+	case 'D':case 'd':
+	CD3DManager::Instance()->getCamera()->strafe(-0.1f);
+	break;
+
+	default:
+	break;
+	}
+
+	//if (GetAsyncKeyState('W') & 0x8000)    //上下
+	//	m_Graphics->getCamera()->fly(-0.1f);
+	//if (GetAsyncKeyState('S') & 0x8000)
+	//	m_Graphics->getCamera()->fly(0.1f);
+	//if (GetAsyncKeyState('A') & 0x8000)    //左右 
+	//	m_Graphics->getCamera()->strafe(0.1f);
+	//if (GetAsyncKeyState('D') & 0x8000)
+	//	m_Graphics->getCamera()->strafe(-0.1f);
+	//if (GetAsyncKeyState('Z') & 0x8000)
+	//	m_Graphics->getCamera()->pitch(PI / 180);
+	//if (GetAsyncKeyState('X') & 0x8000)
+	//	m_Graphics->getCamera()->yaw(PI / 180);
+	//if (GetAsyncKeyState('C') & 0x8000)
+	//	m_Graphics->getCamera()->roll(PI / 180);
+	//if (GetAsyncKeyState('R') & 0x8000)
+	//	m_Graphics->getCamera()->reCorver();
 }

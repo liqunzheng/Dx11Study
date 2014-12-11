@@ -66,3 +66,9 @@ void CD3DManager::Shutdown()
 	}
 }
 
+CCamera* CD3DManager::getCamera()
+{
+	ASSERT(m_p3dRoot);
+	return m_p3dRoot->getCamera();
+}
+
