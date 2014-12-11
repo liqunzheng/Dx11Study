@@ -70,14 +70,9 @@ void GraphicsClass::Shutdown()
 
 bool GraphicsClass::Frame()
 {
-	D3DXMATRIX mxView;
-	//m_Camera->getViewMatrix(&mxView);
-	//m_p3dRoot->setViewMatrix(mxView);
 	m_p3dRoot->BeginScene(0.0f, 0.0f, 0.5f, 1.0f);
-
 	m_p3dRoot->Render();
 	m_p3dRoot->EndScene();
-
 	return true;
 }
 

@@ -25,7 +25,6 @@ public:
 	void Shutdown();
 	bool Frame();
 	void pick(int x, int y);
-	bool Render();
 
 	CCamera* getCamera();
 
