@@ -81,6 +81,12 @@
     <ClInclude Include="MtlShader2D.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="LoadShape.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="ColorShape.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -135,6 +141,12 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="MtlShader2D.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="LoadShape.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="ColorShape.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

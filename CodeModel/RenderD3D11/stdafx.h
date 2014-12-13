@@ -14,6 +14,7 @@
 #include <string>
 #include <vector>
 #include <map>
+#include <stdexcept>
 
 #include <d3d11.h>
 #include <d3dx10math.h>

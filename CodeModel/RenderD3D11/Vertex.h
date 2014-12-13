@@ -4,6 +4,7 @@
 // 作者：李群政
 // 时间：2014年11月30日
 // xyz	三维坐标
+// nxyz 法向量
 // xy	二维坐标
 // c	顶点颜色
 // uv	纹理坐标
@@ -27,6 +28,20 @@ struct pt_xyz_c
 {
 	D3DXVECTOR3 position;
 	D3DXVECTOR4 color;
+};
+
+struct pt_xyz_nxyz_c
+{
+	D3DXVECTOR3 position;
+	D3DXVECTOR3 normal;
+	D3DXVECTOR4 color;
+};
+
+struct pt_xyz_nxyz_uv
+{
+	D3DXVECTOR3 position;
+	D3DXVECTOR3 normal;
+	D3DXVECTOR2 texture;
 };
 
 typedef std::vector<unsigned int> CIndexArray;

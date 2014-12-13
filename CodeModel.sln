@@ -12,6 +12,7 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "RenderD3D11", "CodeModel\RenderD3D11\RenderD3D11.vcxproj", "{CD3DFA03-F20C-4526-8A08-0CD347B3F091}"
 	ProjectSection(ProjectDependencies) = postProject
 		{8CB15714-6B82-41AD-BB31-F1DC2FE9B0D7} = {8CB15714-6B82-41AD-BB31-F1DC2FE9B0D7}
+		{A0A3A92E-E4D5-4646-9F22-862A0817E1F6} = {A0A3A92E-E4D5-4646-9F22-862A0817E1F6}
 	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Geometry", "CodeModel\Geometry\Geometry.vcxproj", "{8CB15714-6B82-41AD-BB31-F1DC2FE9B0D7}"
@@ -19,6 +20,9 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Common", "CodeModel\Common\Common.vcxproj", "{A0A3A92E-E4D5-4646-9F22-862A0817E1F6}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MFCClient", "CodeModel\MFCClient\MFCClient.vcxproj", "{92B5FB7E-A4CE-4D29-B5CD-C235B70FC2C4}"
+	ProjectSection(ProjectDependencies) = postProject
+		{CD3DFA03-F20C-4526-8A08-0CD347B3F091} = {CD3DFA03-F20C-4526-8A08-0CD347B3F091}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

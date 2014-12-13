@@ -9,6 +9,7 @@
 #include "AxisShape.h"
 #include "FontShape.h"
 #include "MtlShape2D.h"
+#include "LoadShape.h"
 
 
 CShapeManager::CShapeManager()
@@ -23,25 +24,33 @@ CShapeManager::~CShapeManager()
 
 void CShapeManager::Initialize(const std::wstring& strFileName, CD3D11Class* pD3DRoot)
 {
-	CMtlShape *pModel = new CMtlShape();
-	pModel->Initialize(pD3DRoot);
-	m_models.push_back(pModel);
-
+	//äÖÈ¾×ø±êÖá
 	CAxisShape *pAxis = new CAxisShape();
 	pAxis->Initialize(pD3DRoot);
 	m_models.push_back(pAxis);
 
-	CLineShape *pLine = new CLineShape();
-	pLine->Initialize(pD3DRoot);
-	m_models.push_back(pLine);
+	std::vector<IShape*> pShapes = CLoadShape::Instance()->load(this, L"aaa.msh");
 
-	CMtlShape2D *p2d = new CMtlShape2D();
-	p2d->Initialize(pD3DRoot);
-	m_models.push_back(p2d);
+	for (size_t i = 0; i < pShapes.size(); ++i)
+	{
+		pShapes[i]->Initialize(pD3DRoot);
+		m_models.push_back(pShapes[i]);
+	}
+	//CMtlShape *pModel = new CMtlShape();
+	//pModel->Initialize(pD3DRoot);
+	//m_models.push_back(pModel);
 
-	CFontShape *pFont = new CFontShape();
-	pFont->Initialize(pD3DRoot);
-	m_models.push_back(pFont);
+	//CLineShape *pLine = new CLineShape();
+	//pLine->Initialize(pD3DRoot);
+	//m_models.push_back(pLine);
+
+	//CMtlShape2D *p2d = new CMtlShape2D();
+	//p2d->Initialize(pD3DRoot);
+	//m_models.push_back(p2d);
+
+	//CFontShape *pFont = new CFontShape();
+	//pFont->Initialize(pD3DRoot);
+	//m_models.push_back(pFont);
 }
 
 void CShapeManager::Shutdown()

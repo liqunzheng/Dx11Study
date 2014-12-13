@@ -23,6 +23,7 @@
 #include "MFCClientView.h"
 #include "D3DManager.h"
 #include "Camera.h"
+#include "TraceWin.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -39,6 +40,7 @@ BEGIN_MESSAGE_MAP(CMFCClientView, CView)
 	ON_WM_SIZE()
 	ON_WM_ERASEBKGND()
 	ON_WM_CHAR()
+	ON_WM_MOUSEWHEEL()
 END_MESSAGE_MAP()
 
 // CMFCClientView 构造/析构
@@ -123,9 +125,10 @@ void CMFCClientView::OnInitialUpdate()
 void CMFCClientView::OnSize(UINT nType, int cx, int cy)
 {
 	CView::OnSize(nType, cx, cy);
+	DPrintf("OnSize\n");
 
 	// 窗口大小改变时,重新初始化引擎
-	CD3DManager::Instance()->InitEnger(m_hWnd);
+	//CD3DManager::Instance()->InitEnger(m_hWnd);
 }
 
 
@@ -174,4 +177,20 @@ void CMFCClientView::OnChar(UINT nChar, UINT nRepCnt, UINT nFlags)
 	//	m_Graphics->getCamera()->roll(PI / 180);
 	//if (GetAsyncKeyState('R') & 0x8000)
 	//	m_Graphics->getCamera()->reCorver();
+}
+
+
+BOOL CMFCClientView::OnMouseWheel(UINT nFlags, short zDelta, CPoint pt)
+{
+	// 移动相机位置
+	if (zDelta > 0)
+	{
+		CD3DManager::Instance()->getCamera()->walk(-0.5f);
+	}
+	else
+	{
+		CD3DManager::Instance()->getCamera()->walk(0.5f);
+	}
+
+	return CView::OnMouseWheel(nFlags, zDelta, pt);
 }
