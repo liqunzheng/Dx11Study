@@ -29,6 +29,8 @@
 #define new DEBUG_NEW
 #endif
 
+//按F4刷新工程
+UINT WM_CUSTOM_REFRESH_PROJECT = RegisterWindowMessage(_T("WM_CUSTOM_REFRESH_PROJECT"));
 
 // CMFCClientView
 
@@ -41,6 +43,7 @@ BEGIN_MESSAGE_MAP(CMFCClientView, CView)
 	ON_WM_ERASEBKGND()
 	ON_WM_CHAR()
 	ON_WM_MOUSEWHEEL()
+	ON_WM_HOTKEY()
 END_MESSAGE_MAP()
 
 // CMFCClientView 构造/析构
@@ -48,7 +51,7 @@ END_MESSAGE_MAP()
 CMFCClientView::CMFCClientView()
 {
 	// TODO:  在此处添加构造代码
-
+	m_bEngineCreate = false;
 }
 
 CMFCClientView::~CMFCClientView()
@@ -119,16 +122,19 @@ void CMFCClientView::OnInitialUpdate()
 
 	// 初始化D3D m_hWnd
 	CD3DManager::Instance()->InitEnger(m_hWnd);
+	RegisterHotKey(m_hWnd, WM_CUSTOM_REFRESH_PROJECT, NULL, VK_F4);
+
+	m_bEngineCreate = true;
 }
 
 
 void CMFCClientView::OnSize(UINT nType, int cx, int cy)
 {
 	CView::OnSize(nType, cx, cy);
-	DPrintf("OnSize\n");
-
-	// 窗口大小改变时,重新初始化引擎
-	//CD3DManager::Instance()->InitEnger(m_hWnd);
+	if (m_bEngineCreate)
+	{
+		DPrintf("需改变大小\n");
+	}
 }
 
 
@@ -193,4 +199,15 @@ BOOL CMFCClientView::OnMouseWheel(UINT nFlags, short zDelta, CPoint pt)
 	}
 
 	return CView::OnMouseWheel(nFlags, zDelta, pt);
+}
+
+
+void CMFCClientView::OnHotKey(UINT nHotKeyId, UINT nKey1, UINT nKey2)
+{
+	// TODO:  在此添加消息处理程序代码和/或调用默认值
+	if (nHotKeyId == WM_CUSTOM_REFRESH_PROJECT)
+	{
+		CD3DManager::Instance()->InitEnger(m_hWnd);
+	}
+	CView::OnHotKey(nHotKeyId, nKey1, nKey2);
 }
