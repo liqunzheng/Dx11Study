@@ -51,7 +51,7 @@ void CFontTextureManager::CalTextData(const std::string& str, const int& size, c
 		{
 			p++;
 			xPos = rect.left;
-			yPos += lineHeight * scale;
+			yPos += static_cast<long>(lineHeight * scale);
 			continue;
 		}
 		if (*p & 0x80)
@@ -99,8 +99,8 @@ void CFontTextureManager::CalTextData(const std::string& str, const int& size, c
 			copyCharToTexture(_pCharIndices[charcode]);
 		}
 
-		float x = xPos - 0.5;
-		float y = yPos + (lineHeight - FONT_SIZE) *0.5 - 0.5;
+		float x = xPos - 0.5f;
+		float y = yPos + (lineHeight - FONT_SIZE) *0.5f - 0.5f;
 		float addX = _pCharIndices[charcode]->width * scale;
 		float addY = _pCharIndices[charcode]->height * scale;
 		if (*p & 0x80) //Ë«×Ö½Ú
@@ -111,7 +111,7 @@ void CFontTextureManager::CalTextData(const std::string& str, const int& size, c
 		{
 			p += 1;
 		}
-		xPos += _pCharIndices[charcode]->width * scale;
+		xPos += static_cast<long>(_pCharIndices[charcode]->width * scale);
 
 		//render
 		int nIndexStart = vertices.size();

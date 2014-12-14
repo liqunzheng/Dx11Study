@@ -54,12 +54,13 @@
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;RENDERD3D11_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>..\..\ThirdPart\DirectX\Include;..\ModuleHeader\RenderD3D11;..\ModuleHeader\Geometry;..\..\ThirdPart\FreeType2\Include;..\ModuleHeader\Common;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <DisableSpecificWarnings>4251;4005;4099</DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <ImportLibrary>..\ModuleLib\$(TargetName).lib</ImportLibrary>
-      <AdditionalDependencies>dxgi.lib;d3d11.lib;d3dx11.lib;d3dx10.lib;freetype.lib;common.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>dxgi.lib;d3d11.lib;d3dx11.lib;d3dx10.lib;freetype.lib;Leecommon.lib;DxErr.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>..\..\ThirdPart\DirectX\Lib\x86;..\..\ThirdPart\FreeType2\Debug\x86;..\ModuleLib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
@@ -93,6 +94,8 @@
     <ClInclude Include="FontTextureManager.h" />
     <ClInclude Include="FontShader.h" />
     <ClInclude Include="FontShape.h" />
+    <ClInclude Include="LightShader.h" />
+    <ClInclude Include="LightShape.h" />
     <ClInclude Include="LineShape.h" />
     <ClInclude Include="LoadShape.h" />
     <ClInclude Include="MtlShader.h" />
@@ -100,6 +103,7 @@
     <ClInclude Include="IShader.h" />
     <ClInclude Include="MtlShader2D.h" />
     <ClInclude Include="MtlShape2D.h" />
+    <ClInclude Include="PubFunc.h" />
     <ClInclude Include="ShapeManager.h" />
     <ClInclude Include="MtlShape.h" />
     <ClInclude Include="ShaderManager.h" />
@@ -116,6 +120,8 @@
     <ClCompile Include="FontTextureManager.cpp" />
     <ClCompile Include="FontShader.cpp" />
     <ClCompile Include="FontShape.cpp" />
+    <ClCompile Include="LightShader.cpp" />
+    <ClCompile Include="LightShape.cpp" />
     <ClCompile Include="LineShape.cpp" />
     <ClCompile Include="LoadShape.cpp" />
     <ClCompile Include="MtlShader.cpp" />
@@ -130,6 +136,7 @@
     </ClCompile>
     <ClCompile Include="MtlShader2D.cpp" />
     <ClCompile Include="MtlShape2D.cpp" />
+    <ClCompile Include="PubFunc.cpp" />
     <ClCompile Include="ShapeManager.cpp" />
     <ClCompile Include="MtlShape.cpp" />
     <ClCompile Include="ShaderManager.cpp" />

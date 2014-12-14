@@ -650,8 +650,8 @@ void CD3D11Class::getViewSize(int& iWidth, int& iHeight)
 	D3D11_VIEWPORT viewport;
 	UINT uNum = 1;
 	m_deviceContext->RSGetViewports(&uNum, &viewport);
-	iWidth = viewport.Width;
-	iHeight = viewport.Height;
+	iWidth = static_cast<int>(viewport.Width);
+	iHeight = static_cast<int>(viewport.Height);
 }
 
 CFontTextureManager* CD3D11Class::getFontMgr()

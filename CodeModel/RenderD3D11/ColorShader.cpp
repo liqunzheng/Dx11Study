@@ -55,6 +55,8 @@ bool CColorShader::Initialize(CD3D11Class* p3DRoot)
 	ID3D10Blob* pixelShaderBuffer = 0;
 	result = D3DX11CompileFromFile(m_strPSName.c_str(), NULL, NULL, "ColorPixelShader", "ps_5_0", D3D10_SHADER_ENABLE_STRICTNESS, 0, NULL,
 		&pixelShaderBuffer, &errorMessage, NULL);
+
+	HR(result);
 	if (FAILED(result))
 	{
 		// 如果vs编译失败，输出错误消息.

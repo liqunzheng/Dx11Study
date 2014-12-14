@@ -13,6 +13,12 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Shape">
+      <UniqueIdentifier>{0b9cba9f-186b-4947-92d9-a3cf4edced31}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Material">
+      <UniqueIdentifier>{ba3506d0-178c-4547-a956-65d30f6df9e1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -42,19 +48,7 @@
     <ClInclude Include="IShape.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="MtlShape.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
     <ClInclude Include="ShapeManager.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="MtlShader.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="LineShape.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="ColorShader.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="AxisShape.h">
@@ -63,28 +57,49 @@
     <ClInclude Include="..\ModuleHeader\RenderD3D11\Camera.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="FontShape.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="MtlShape2D.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="FontShader.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
     <ClInclude Include="Vertex.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="FontTextureManager.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="MtlShader2D.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
     <ClInclude Include="LoadShape.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="ColorShader.h">
+      <Filter>Material</Filter>
+    </ClInclude>
     <ClInclude Include="ColorShape.h">
+      <Filter>Shape</Filter>
+    </ClInclude>
+    <ClInclude Include="FontShape.h">
+      <Filter>Shape</Filter>
+    </ClInclude>
+    <ClInclude Include="FontShader.h">
+      <Filter>Material</Filter>
+    </ClInclude>
+    <ClInclude Include="MtlShader.h">
+      <Filter>Material</Filter>
+    </ClInclude>
+    <ClInclude Include="MtlShape.h">
+      <Filter>Shape</Filter>
+    </ClInclude>
+    <ClInclude Include="MtlShape2D.h">
+      <Filter>Shape</Filter>
+    </ClInclude>
+    <ClInclude Include="MtlShader2D.h">
+      <Filter>Material</Filter>
+    </ClInclude>
+    <ClInclude Include="LineShape.h">
+      <Filter>Shape</Filter>
+    </ClInclude>
+    <ClInclude Include="LightShader.h">
+      <Filter>Material</Filter>
+    </ClInclude>
+    <ClInclude Include="LightShape.h">
+      <Filter>Shape</Filter>
+    </ClInclude>
+    <ClInclude Include="PubFunc.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
@@ -147,6 +162,15 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="ColorShape.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="LightShader.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="LightShape.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="PubFunc.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
