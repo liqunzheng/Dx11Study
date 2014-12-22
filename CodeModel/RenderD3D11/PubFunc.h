@@ -7,7 +7,7 @@ std::wstring getShaderFile(const std::wstring& strName);
 std::wstring getTextureFile(const std::wstring& strTexture);
 
 //得到运行目录
-std::wstring getExecFolder();
+std::wstring getCurrentFolder();
 
 //创建索引缓存
 ID3D11Buffer* CreateIndexBuffer(ID3D11Device* pDevice, const CIndexArray& indices);
@@ -64,11 +64,10 @@ if (FAILED(hr))                                         \
 #endif
 
 //创建顶点着色器和输入布局
-bool CreateVsInputLayout(const std::wstring& strVsName, const std::vector<std::string>& strsInputElement,ID3D11Device* pDevice,
+bool CreateVsInputLayout(const std::wstring& strVsName, const std::vector<std::string>& strsInputElement, ID3D11Device* pDevice,
 	ID3D11VertexShader** vs, ID3D11InputLayout** input, const std::string& mainfun = "main", const std::string& version = "vs_5_0");
 
 //创建像素着色器
-
-
-
+bool CreatePs(const std::wstring& strPsName, ID3D11Device* pDevice, ID3D11VertexShader** vs,
+	const std::string& mainfun = "main", const std::string& version = "vs_5_0");
 

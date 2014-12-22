@@ -4,9 +4,9 @@
 std::wstring getShaderFile(const std::wstring& strName)
 {
 	std::wstring strPath;
-	WCHAR ch[_MAX_PATH];
-	_wgetcwd(ch, _MAX_PATH);
-	strPath = ch;
+	//WCHAR ch[_MAX_PATH];
+	//_wgetcwd(ch, _MAX_PATH);
+	//strPath = ch;
 
 	//strPath = L"";
 	return strPath;
@@ -23,7 +23,7 @@ std::wstring getTextureFile(const std::wstring& strTexture)
 	return strPath;
 }
 
-std::wstring getExecFolder()
+std::wstring getCurrentFolder()
 {
 	std::wstring strPath;
 	WCHAR ch[_MAX_PATH];
@@ -74,10 +74,7 @@ bool CreateVsInputLayout(const std::wstring& strVsName, const std::vector<std::s
 
 	// 从缓冲创建vs shader.
 	result = pDevice->CreateVertexShader(vertexShaderBuffer->GetBufferPointer(), vertexShaderBuffer->GetBufferSize(), NULL, vs);
-	if (FAILED(result))
-	{
-		return false;
-	}
+	HR(result);
 
 	// 设置数据布局，以便在shader中使用.
 	// 定义要和ModelClass中的顶点结构一致.
@@ -112,9 +109,29 @@ bool CreateVsInputLayout(const std::wstring& strVsName, const std::vector<std::s
 	}
 
 	//释放顶点和像素缓冲.
-	vertexShaderBuffer->Release();
-	vertexShaderBuffer = 0;
+	SAFE_RELEASE(vertexShaderBuffer);
+	SAFE_RELEASE(errorMessage);
 
+	return true;
+}
+
+bool CreatePs(const std::wstring& strPsName, ID3D11Device* pDevice, ID3D11VertexShader** ps, const std::string& mainfun /*= "main"*/, const std::string& version /*= "vs_5_0"*/)
+{
+	ID3D10Blob* errorMessage = nullptr;
+	std::wstring strErrorMessage;
+
+	// 编译ps代码.
+	ID3D10Blob* pixelShaderBuffer = nullptr;
+	HRESULT result = D3DX11CompileFromFile(strPsName.c_str(), NULL, NULL, mainfun.c_str(), version.c_str(),
+		D3D10_SHADER_ENABLE_STRICTNESS, 0, NULL, &pixelShaderBuffer, &errorMessage, NULL);
+	HR(result);
+
+	// 从缓冲创建vs shader.
+	result = pDevice->CreateVertexShader(pixelShaderBuffer->GetBufferPointer(), pixelShaderBuffer->GetBufferSize(), NULL, ps);
+	HR(result);
+
+	SAFE_RELEASE(pixelShaderBuffer);
+	SAFE_RELEASE(errorMessage);
 	return true;
 }
 

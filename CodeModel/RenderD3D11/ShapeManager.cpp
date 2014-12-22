@@ -36,21 +36,6 @@ void CShapeManager::Initialize(const std::wstring& strFileName, CD3D11Class* pD3
 		pShapes[i]->Initialize(pD3DRoot);
 		m_models.push_back(pShapes[i]);
 	}
-	//CMtlShape *pModel = new CMtlShape();
-	//pModel->Initialize(pD3DRoot);
-	//m_models.push_back(pModel);
-
-	//CLineShape *pLine = new CLineShape();
-	//pLine->Initialize(pD3DRoot);
-	//m_models.push_back(pLine);
-
-	//CMtlShape2D *p2d = new CMtlShape2D();
-	//p2d->Initialize(pD3DRoot);
-	//m_models.push_back(p2d);
-
-	//CFontShape *pFont = new CFontShape();
-	//pFont->Initialize(pD3DRoot);
-	//m_models.push_back(pFont);
 }
 
 void CShapeManager::Shutdown()
